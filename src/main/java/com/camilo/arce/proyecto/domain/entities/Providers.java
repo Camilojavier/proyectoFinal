@@ -36,11 +36,11 @@ public class Providers implements ProvidersAnnotations{
     @Column(name = TENANT_ID)
     private String tenantId;
 
-    @OneToMany(mappedBy = PROVIDERS)
+    @OneToMany(mappedBy = PROVIDERS, cascade = CascadeType.ALL)
     private Set<OpenIDUsers> openIDUsers;
 
-    @OneToOne(mappedBy = PROVIDERS, cascade = CascadeType.ALL, orphanRemoval = true)
-    private ProviderDetails providerDetails;
+    @OneToMany(mappedBy = PROVIDERS, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProviderDetails> providerDetails;
 
     @OneToOne(mappedBy = PROVIDERS, cascade = CascadeType.ALL, orphanRemoval = true)
     private Discovery discovery;

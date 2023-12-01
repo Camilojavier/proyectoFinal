@@ -34,10 +34,10 @@ public class Users implements UsersAnnotations {
 
     private String phone;
 
-    @OneToMany(mappedBy = USERS)
+    @OneToMany(mappedBy = USERS, cascade = CascadeType.ALL)
     private Set<UserRoles> userRoles;
 
-    @OneToMany(mappedBy = USERS)
+    @OneToMany(mappedBy = USERS, cascade = CascadeType.ALL)
     private Set<OpenIDUsers> openIDUsers;
 
 

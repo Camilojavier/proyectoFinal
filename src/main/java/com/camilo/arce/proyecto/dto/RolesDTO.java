@@ -11,7 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 public class RolesDTO implements RolesMessages {
 
-    private Integer roleId;
+    private Long roleId;
 
     @NotBlank(message = nameMessage)
     private String name;

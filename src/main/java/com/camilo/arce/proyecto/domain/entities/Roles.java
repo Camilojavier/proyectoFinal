@@ -21,7 +21,7 @@ public class Roles implements RolesAnnotations{
 
     private String name;
 
-    @OneToMany(mappedBy = ROLES)
+    @OneToMany(mappedBy = ROLES, cascade = CascadeType.ALL)
     private Set<UserRoles> userRoles;
 
 

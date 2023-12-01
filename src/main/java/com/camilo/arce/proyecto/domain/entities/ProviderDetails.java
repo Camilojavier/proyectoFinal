@@ -26,7 +26,7 @@ public class ProviderDetails implements ProviderDetailsAnnotations {
 
     private String prompt;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = PROVIDER_ID)
     private Providers providers;
 }
