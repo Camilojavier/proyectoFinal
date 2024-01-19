@@ -2,13 +2,9 @@ package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.ProvidersAnnotations;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Set;
 
-@Getter
-@Setter
 @Entity
 @Table(name= ProvidersAnnotations.PROVIDERS)
 public class Providers implements ProvidersAnnotations{
@@ -44,4 +40,84 @@ public class Providers implements ProvidersAnnotations{
 
     @OneToOne(mappedBy = PROVIDERS, cascade = CascadeType.ALL, orphanRemoval = true)
     private Discovery discovery;
+
+    public Long getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(Long providerId) {
+        this.providerId = providerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDiscoveryUrl() {
+        return discoveryUrl;
+    }
+
+    public void setDiscoveryUrl(String discoveryUrl) {
+        this.discoveryUrl = discoveryUrl;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
+    public String getClientSecret() {
+        return clientSecret;
+    }
+
+    public void setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
+    }
+
+    public String getResponseMode() {
+        return responseMode;
+    }
+
+    public void setResponseMode(String responseMode) {
+        this.responseMode = responseMode;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public Set<OpenIDUsers> getOpenIDUsers() {
+        return openIDUsers;
+    }
+
+    public void setOpenIDUsers(Set<OpenIDUsers> openIDUsers) {
+        this.openIDUsers = openIDUsers;
+    }
+
+    public Set<ProviderDetails> getProviderDetails() {
+        return providerDetails;
+    }
+
+    public void setProviderDetails(Set<ProviderDetails> providerDetails) {
+        this.providerDetails = providerDetails;
+    }
+
+    public Discovery getDiscovery() {
+        return discovery;
+    }
+
+    public void setDiscovery(Discovery discovery) {
+        this.discovery = discovery;
+    }
 }

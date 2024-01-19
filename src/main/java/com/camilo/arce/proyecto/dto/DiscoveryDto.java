@@ -1,32 +1,28 @@
-package com.camilo.arce.proyecto.domain.entities;
+package com.camilo.arce.proyecto.dto;
 
-import com.camilo.arce.proyecto.domain.annotations.DiscoveryAnnotations;
-import jakarta.persistence.*;
+import com.camilo.arce.proyecto.dto.Messages.DiscoveryMessages;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-@Entity
-@Table(name = DiscoveryAnnotations.DISCOVERY)
-public class Discovery implements DiscoveryAnnotations {
 
-    @Id
-    @SequenceGenerator(name = DISCOVERY_SEQUENCE, allocationSize = ALLOCATION_SIZE)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = DISCOVERY_SEQUENCE)
-    @Column(name = DISCOVERY_ID)
+public class DiscoveryDto implements DiscoveryMessages {
+
     private Long discoveryId;
 
+    @NotBlank(message = issuerNotBlankMessage)
     private String issuer;
 
-    @Column(name = AUTH_ENDPOINT)
+    @NotBlank(message = authEndpointNotBlankMessage)
     private String authEndpoint;
 
-    @Column(name = TOKEN_ENDPOINT)
+    @NotBlank(message = tokenEndpointNotBlankMessage)
     private String tokenEndpoint;
 
-    @Column(name = JWKS_URI)
+    @NotBlank(message = jwksUriNotBlankMessage)
     private String jwksUri;
 
-    @OneToOne
-    @JoinColumn(name = PROVIDER_ID)
-    private Providers providers;
+    @NotNull(message = providersNotNullMessage)
+    private ProvidersDto providers;
 
     public Long getDiscoveryId() {
         return discoveryId;
@@ -68,12 +64,11 @@ public class Discovery implements DiscoveryAnnotations {
         this.jwksUri = jwksUri;
     }
 
-    public Providers getProviders() {
+    public ProvidersDto getProviders() {
         return providers;
     }
 
-    public void setProviders(Providers providers) {
+    public void setProviders(ProvidersDto providers) {
         this.providers = providers;
     }
 }
-

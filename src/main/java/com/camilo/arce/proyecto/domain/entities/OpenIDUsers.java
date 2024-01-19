@@ -2,11 +2,8 @@ package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.OpenIDUsersAnnotations;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+
 @Entity
 @Table(name = OpenIDUsersAnnotations.OPENID_USERS_TABLE_NAME)
 public class OpenIDUsers implements OpenIDUsersAnnotations{
@@ -34,5 +31,61 @@ public class OpenIDUsers implements OpenIDUsersAnnotations{
     @ManyToOne
     @JoinColumn(name = PROVIDER_ID)
     private Providers providers;
+
+    public Long getOpenIdUsersId() {
+        return openIdUsersId;
+    }
+
+    public void setOpenIdUsersId(Long openIdUsersId) {
+        this.openIdUsersId = openIdUsersId;
+    }
+
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getIssuer() {
+        return issuer;
+    }
+
+    public void setIssuer(String issuer) {
+        this.issuer = issuer;
+    }
+
+    public String getOpenIdDN() {
+        return openIdDN;
+    }
+
+    public void setOpenIdDN(String openIdDN) {
+        this.openIdDN = openIdDN;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Providers getProviders() {
+        return providers;
+    }
+
+    public void setProviders(Providers providers) {
+        this.providers = providers;
+    }
 }
 

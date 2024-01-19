@@ -1,31 +1,23 @@
-package com.camilo.arce.proyecto.domain.entities;
+package com.camilo.arce.proyecto.dto;
 
-import com.camilo.arce.proyecto.domain.annotations.ProviderDetailsAnnotations;
-import jakarta.persistence.*;
+import com.camilo.arce.proyecto.dto.Messages.ProviderDetailsMessages;
+import jakarta.validation.constraints.NotNull;
 
 
-@Entity
-@Table(name = ProviderDetailsAnnotations.PROVIDER_DETAILS)
-public class ProviderDetails implements ProviderDetailsAnnotations {
+public class ProviderDetailsDto implements ProviderDetailsMessages {
 
-    @Id
-    @SequenceGenerator(name = PROVIDER_DETAILS_SEQUENCE, allocationSize = ALLOCATION_SIZE)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = PROVIDER_DETAILS_SEQUENCE)
-    @Column(name = PROVIDER_DETAILS_ID)
     private Long providerDetailsId;
 
     private String scope;
 
-    @Column(name = RESPONSE_TYPE)
     private String responseType;
 
     private String display;
 
     private String prompt;
 
-    @ManyToOne
-    @JoinColumn(name = PROVIDER_ID)
-    private Providers providers;
+    @NotNull(message = providersNotNullMessage)
+    private ProvidersDto providers;
 
     public Long getProviderDetailsId() {
         return providerDetailsId;
@@ -67,12 +59,11 @@ public class ProviderDetails implements ProviderDetailsAnnotations {
         this.prompt = prompt;
     }
 
-    public Providers getProviders() {
+    public ProvidersDto getProviders() {
         return providers;
     }
 
-    public void setProviders(Providers providers) {
+    public void setProviders(ProvidersDto providers) {
         this.providers = providers;
     }
 }
-

@@ -2,11 +2,7 @@ package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.UserRolesAnnotations;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
 @Table(name = UserRolesAnnotations.USER_ROLES)
 public class UserRoles implements UserRolesAnnotations {
@@ -27,4 +23,35 @@ public class UserRoles implements UserRolesAnnotations {
     @JoinColumn(name = ROLE_ID)
     private Roles roles;
 
+    public Long getUserRolesId() {
+        return userRolesId;
+    }
+
+    public void setUserRolesId(Long userRolesId) {
+        this.userRolesId = userRolesId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
+    }
+
+    public Roles getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Roles roles) {
+        this.roles = roles;
+    }
 }
