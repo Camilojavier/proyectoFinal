@@ -1,20 +1,26 @@
 package com.camilo.arce.proyecto.services;
 
-import com.camilo.arce.proyecto.dto.UserRolesDTO;
+import com.camilo.arce.proyecto.dto.RolesDto;
+import com.camilo.arce.proyecto.dto.UserRolesDto;
+import com.camilo.arce.proyecto.dto.UsersDto;
 
 import java.util.List;
 
 public interface UserRolesService {
 
-    UserRolesDTO getUserRoleById(Long userRoleId);
+    UserRolesDto getUserRoleById(Long userRoleId);
 
-    List<UserRolesDTO> getAllUserRoles();
+    List<UserRolesDto> getAllUserRoles();
 
-    UserRolesDTO createUserRole(UserRolesDTO userRolesDTO);
+    UserRolesDto createUserRole(UserRolesDto userRolesDTO);
 
-    UserRolesDTO updateUserRole(Long userRoleId, UserRolesDTO userRolesDTO);
+    UserRolesDto updateUserRole(Long userRoleId, UserRolesDto userRolesDTO);
 
     void deleteUserRole(Long userRoleId);
 
     void deactivateUserRole(Long userRoleId);
+
+    List<UserRolesDto> getUsersByRoleId(Long roleId);
+
+    List<UserRolesDto> getRolesByUserId(Long userId);
 }

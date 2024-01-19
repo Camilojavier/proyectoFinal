@@ -3,90 +3,115 @@ package com.camilo.arce.proyecto.services.impl;
 import com.camilo.arce.proyecto.domain.entities.Roles;
 import com.camilo.arce.proyecto.domain.entities.UserRoles;
 import com.camilo.arce.proyecto.domain.entities.Users;
-import com.camilo.arce.proyecto.dto.UserRolesDTO;
+import com.camilo.arce.proyecto.dto.UserRolesDto;
 import com.camilo.arce.proyecto.repositories.RolesRepository;
 import com.camilo.arce.proyecto.repositories.UserRolesRepository;
 import com.camilo.arce.proyecto.repositories.UsersRepository;
 import com.camilo.arce.proyecto.services.UserRolesService;
 import com.camilo.arce.proyecto.services.mapper.UserRolesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UserRolesServiceImpl implements UserRolesService {
 
     private final UserRolesRepository userRolesRepository;
+    private final UserRolesMapper userRolesMapper;
     private final UsersRepository usersRepository;
     private final RolesRepository rolesRepository;
 
     @Autowired
-    public UserRolesServiceImpl(UserRolesRepository userRolesRepository, UsersRepository usersRepository, RolesRepository rolesRepository) {
+    public UserRolesServiceImpl(UserRolesRepository userRolesRepository, UserRolesMapper userRolesMapper, UsersRepository usersRepository, RolesRepository rolesRepository) {
         this.userRolesRepository = userRolesRepository;
+        this.userRolesMapper = userRolesMapper;
         this.usersRepository = usersRepository;
         this.rolesRepository = rolesRepository;
     }
 
     @Override
-    public UserRolesDTO getUserRoleById(Long userRoleId) {
-        UserRoles userRole = userRolesRepository.findById(userRoleId)
-                .orElseThrow(() -> new RuntimeException("User Role no encontrado con ID: " + userRoleId));
-        return UserRolesMapper.INSTANCE.toDto(userRole);
+    public UserRolesDto getUserRoleById(Long userRoleId) {
+        return userRolesRepository.findById(userRoleId)
+                .map(userRolesMapper::toDto)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserRole no encontrado con ID: " + userRoleId));
     }
 
     @Override
-    public List<UserRolesDTO> getAllUserRoles() {
-        List<UserRoles> allUserRoles = userRolesRepository.findAll();
-        return allUserRoles.stream()
-                .map(UserRolesMapper.INSTANCE::toDto)
+    public List<UserRolesDto> getAllUserRoles() {
+        return userRolesRepository.findAll()
+                .stream()
+                .map(userRolesMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UserRolesDTO createUserRole(UserRolesDTO userRolesDTO) {
-        UserRoles newUserRole = UserRolesMapper.INSTANCE.toEntity(userRolesDTO);
-        newUserRole.setActive(true);
-        UserRoles savedUserRole = userRolesRepository.save(newUserRole);
-        return UserRolesMapper.INSTANCE.toDto(savedUserRole);
+    public UserRolesDto createUserRole(UserRolesDto userRolesDTO) {
+        UserRoles userRoles = userRolesRepository.save(userRolesMapper.toEntity(userRolesDTO));
+        return userRolesMapper.toDto(userRoles);
     }
 
     @Override
-    public UserRolesDTO updateUserRole(Long userRoleId, UserRolesDTO userRolesDTO) {
+    public UserRolesDto updateUserRole(Long userRoleId, UserRolesDto userRolesDTO) {
         UserRoles existingUserRole = userRolesRepository.findById(userRoleId)
-                .orElseThrow(() -> new RuntimeException("User Role no encontrado con ID: " + userRoleId));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserRole no encontrado con ID: " + userRoleId));
 
-        if (userRolesDTO.getUsers() != null && userRolesDTO.getUsers().getUserId() != null) {
-            Users existingUser = usersRepository.findById(userRolesDTO.getUsers().getUserId())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userRolesDTO.getUsers().getUserId()));
-
-            existingUserRole.setUsers(existingUser);
+        if (userRolesDTO.getRoles() != null) {
+            Optional<Roles> updatedRole = rolesRepository.findById(userRolesDTO.getRoles().getRoleId());
+            if (updatedRole.isPresent()) {
+                existingUserRole.setRoles(updatedRole.get());
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Rol no encontrado con ID: " + userRolesDTO.getUsers().getUserId());
+            }
         }
 
-        if (userRolesDTO.getRoles() != null && userRolesDTO.getRoles().getRoleId() != null) {
-            Roles existingRole = rolesRepository.findById(userRolesDTO.getRoles().getRoleId())
-                    .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + userRolesDTO.getRoles().getRoleId()));
-
-            existingUserRole.setRoles(existingRole);
+        if (userRolesDTO.getUsers() != null) {
+            Optional<Users> updatedUser = usersRepository.findById(userRolesDTO.getUsers().getUserId());
+            if (updatedUser.isPresent()) {
+                existingUserRole.setUsers(updatedUser.get());
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado con ID: " + userRolesDTO.getUsers().getUserId());
+            }
         }
-            existingUserRole.setActive(true);
 
         UserRoles updatedUserRole = userRolesRepository.save(existingUserRole);
-        return UserRolesMapper.INSTANCE.toDto(updatedUserRole);
+        return userRolesMapper.toDto(updatedUserRole);
     }
-
 
     @Override
     public void deleteUserRole(Long userRoleId) {
         userRolesRepository.deleteById(userRoleId);
     }
+
     @Override
     public void deactivateUserRole(Long userRoleId) {
-        UserRoles existingUserRole = userRolesRepository.findById(userRoleId)
-                .orElseThrow(() -> new RuntimeException("User Role no encontrado con ID: " + userRoleId));
-        existingUserRole.setActive(false);
+        UserRoles userRoles = userRolesRepository.findById(userRoleId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserRole no encontrado con ID: " + userRoleId));
 
-        userRolesRepository.save(existingUserRole);
+        userRoles.setActive(false);
+        userRolesRepository.save(userRoles);
     }
+
+    @Override
+    public List<UserRolesDto> getUsersByRoleId(Long roleId) {
+
+        return userRolesRepository.findByRoles_RoleIdAndActiveIsTrue(roleId).stream()
+                .map(userRolesMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserRolesDto> getRolesByUserId(Long userId) {
+        return userRolesRepository.findByUsers_UserIdAndActiveIsTrue(userId).stream()
+                .map(userRolesMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 }
+
