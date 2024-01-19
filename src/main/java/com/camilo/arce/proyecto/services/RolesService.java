@@ -1,18 +1,19 @@
 package com.camilo.arce.proyecto.services;
 
-import com.camilo.arce.proyecto.dto.RolesDTO;
+import com.camilo.arce.proyecto.dto.RolesDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RolesService {
 
-    RolesDTO getRoleById(Long roleId);
+    Optional<RolesDto> getRoleById(Long roleId);
 
-    List<RolesDTO> getAllRoles();
+    List<RolesDto> getAllRoles();
 
-    RolesDTO createRole(RolesDTO rolesDTO);
+    RolesDto createRole(RolesDto rolesDTO);
 
-    RolesDTO updateRole(Long roleId, RolesDTO rolesDTO);
+    RolesDto updateRole(Long roleId, RolesDto rolesDTO);
 
     void deleteRole(Long roleId);
 }

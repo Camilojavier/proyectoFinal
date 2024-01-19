@@ -1,16 +1,25 @@
 package com.camilo.arce.proyecto.services.mapper;
 
 import com.camilo.arce.proyecto.domain.entities.Roles;
-import com.camilo.arce.proyecto.dto.RolesDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import com.camilo.arce.proyecto.dto.RolesDto;
+import org.springframework.stereotype.Component;
 
-@Mapper
-public interface RolesMapper {
+@Component
+public class RolesMapper implements CustomMapper<RolesDto, Roles> {
 
-    RolesMapper INSTANCE = Mappers.getMapper(RolesMapper.class);
+    @Override
+    public RolesDto toDto(Roles role) {
+        final RolesDto roleDto = new RolesDto();
+        roleDto.setRoleId(role.getRoleId());
+        roleDto.setName(role.getName());
+        return roleDto;
+    }
 
-    RolesDTO toDto(Roles roles);
-
-    Roles toEntity(RolesDTO rolesDTO);
+    @Override
+    public Roles toEntity(RolesDto roleDto) {
+        final Roles role = new Roles();
+        role.setRoleId(roleDto.getRoleId());
+        role.setName(roleDto.getName());
+        return role;
+    }
 }

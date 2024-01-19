@@ -1,57 +1,63 @@
 package com.camilo.arce.proyecto.services.impl;
 
 import com.camilo.arce.proyecto.domain.entities.Roles;
-import com.camilo.arce.proyecto.dto.RolesDTO;
+import com.camilo.arce.proyecto.dto.RolesDto;
 import com.camilo.arce.proyecto.repositories.RolesRepository;
 import com.camilo.arce.proyecto.services.RolesService;
 import com.camilo.arce.proyecto.services.mapper.RolesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RolesServiceImpl implements RolesService {
 
     private final RolesRepository rolesRepository;
+    private final RolesMapper rolesMapper;
 
     @Autowired
-    public RolesServiceImpl(RolesRepository rolesRepository) {
+    public RolesServiceImpl(RolesRepository rolesRepository, RolesMapper rolesMapper) {
         this.rolesRepository = rolesRepository;
+        this.rolesMapper = rolesMapper;
     }
 
     @Override
-    public RolesDTO getRoleById(Long roleId) {
-        Roles role = rolesRepository.findById(roleId)
-                .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + roleId));
-        return RolesMapper.INSTANCE.toDto(role);
+    @Transactional(readOnly = true)
+    public Optional<RolesDto> getRoleById(Long roleId) {
+        return rolesRepository.findById(roleId).map(rolesMapper::toDto);
     }
 
     @Override
-    public List<RolesDTO> getAllRoles() {
-        List<Roles> allRoles = rolesRepository.findAll();
-        return allRoles.stream()
-                .map(RolesMapper.INSTANCE::toDto)
+    public List<RolesDto> getAllRoles() {
+        return rolesRepository.findAll()
+                .stream()
+                .map(rolesMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public RolesDTO createRole(RolesDTO rolesDTO) {
-        Roles newRole = RolesMapper.INSTANCE.toEntity(rolesDTO);
-        Roles savedRole = rolesRepository.save(newRole);
-        return RolesMapper.INSTANCE.toDto(savedRole);
+    public RolesDto createRole(RolesDto rolesDto) {
+        return rolesMapper.toDto(rolesRepository.save(rolesMapper.toEntity(rolesDto)));
     }
 
     @Override
-    public RolesDTO updateRole(Long roleId, RolesDTO rolesDTO) {
+    public RolesDto updateRole(Long roleId, RolesDto rolesDTO) {
         Roles existingRole = rolesRepository.findById(roleId)
-                .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + roleId));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Rol no encontrado con ID: " + roleId));
+
         if (rolesDTO.getName() != null && !rolesDTO.getName().isEmpty()) {
             existingRole.setName(rolesDTO.getName());
         }
+
         Roles updatedRole = rolesRepository.save(existingRole);
-        return RolesMapper.INSTANCE.toDto(updatedRole);
+        return rolesMapper.toDto(updatedRole);
     }
 
     @Override
@@ -59,3 +65,4 @@ public class RolesServiceImpl implements RolesService {
         rolesRepository.deleteById(roleId);
     }
 }
+
