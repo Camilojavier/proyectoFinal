@@ -1,9 +1,8 @@
 package com.camilo.arce.proyecto.services.impl;
 
 import com.camilo.arce.proyecto.domain.entities.ProviderDetails;
-import com.camilo.arce.proyecto.dto.ProviderDetailsDTO;
+import com.camilo.arce.proyecto.dto.ProviderDetailsDto;
 import com.camilo.arce.proyecto.repositories.ProviderDetailsRepository;
-import com.camilo.arce.proyecto.repositories.ProvidersRepository;
 import com.camilo.arce.proyecto.services.ProviderDetailsService;
 import com.camilo.arce.proyecto.services.mapper.ProviderDetailsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,43 +15,44 @@ import java.util.stream.Collectors;
 public class ProviderDetailsServiceImpl implements ProviderDetailsService {
 
     private final ProviderDetailsRepository providerDetailsRepository;
+    private final ProviderDetailsMapper providerDetailsMapper;
 
     @Autowired
-    public ProviderDetailsServiceImpl(ProviderDetailsRepository providerDetailsRepository, ProvidersRepository providersRepository) {
+    public ProviderDetailsServiceImpl(ProviderDetailsRepository providerDetailsRepository, ProviderDetailsMapper providerDetailsMapper) {
         this.providerDetailsRepository = providerDetailsRepository;
+        this.providerDetailsMapper = providerDetailsMapper;
     }
 
     @Override
-    public ProviderDetailsDTO getProviderDetailsById(Long providerDetailsId) {
+    public ProviderDetailsDto getProviderDetailsById(Long providerDetailsId) {
         ProviderDetails providerDetails = providerDetailsRepository.findById(providerDetailsId)
                 .orElseThrow(() -> new RuntimeException("Detalles del proveedor no encontrados con ID: " + providerDetailsId));
-        return ProviderDetailsMapper.INSTANCE.toDto(providerDetails);
+        return providerDetailsMapper.toDto(providerDetails);
     }
 
     @Override
-    public List<ProviderDetailsDTO> getAllProviderDetails() {
+    public List<ProviderDetailsDto> getAllProviderDetails() {
         List<ProviderDetails> allProviderDetails = providerDetailsRepository.findAll();
         return allProviderDetails.stream()
-                .map(ProviderDetailsMapper.INSTANCE::toDto)
+                .map(providerDetailsMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ProviderDetailsDTO createProviderDetails(ProviderDetailsDTO providerDetailsDTO) {
-        ProviderDetails newProviderDetails = ProviderDetailsMapper.INSTANCE.toEntity(providerDetailsDTO);
+    public ProviderDetailsDto createProviderDetails(ProviderDetailsDto providerDetailsDTO) {
+        ProviderDetails newProviderDetails = providerDetailsMapper.toEntity(providerDetailsDTO);
         ProviderDetails savedProviderDetails = providerDetailsRepository.save(newProviderDetails);
-        return ProviderDetailsMapper.INSTANCE.toDto(savedProviderDetails);
+        return providerDetailsMapper.toDto(savedProviderDetails);
     }
 
     @Override
-    public ProviderDetailsDTO updateProviderDetails(Long providerDetailsId, ProviderDetailsDTO providerDetailsDTO) {
+    public ProviderDetailsDto updateProviderDetails(Long providerDetailsId, ProviderDetailsDto providerDetailsDTO) {
         ProviderDetails existingProviderDetails = providerDetailsRepository.findById(providerDetailsId)
                 .orElseThrow(() -> new RuntimeException("Detalles del proveedor no encontrados con ID: " + providerDetailsId));
 
         if (providerDetailsDTO.getScope() != null && !providerDetailsDTO.getScope().isEmpty()) {
             existingProviderDetails.setScope(providerDetailsDTO.getScope());
         }
-
         if (providerDetailsDTO.getResponseType() != null && !providerDetailsDTO.getResponseType().isEmpty()) {
             existingProviderDetails.setResponseType(providerDetailsDTO.getResponseType());
         }
@@ -65,9 +65,8 @@ public class ProviderDetailsServiceImpl implements ProviderDetailsService {
             existingProviderDetails.setPrompt(providerDetailsDTO.getPrompt());
         }
 
-
         ProviderDetails updatedProviderDetails = providerDetailsRepository.save(existingProviderDetails);
-        return ProviderDetailsMapper.INSTANCE.toDto(updatedProviderDetails);
+        return providerDetailsMapper.toDto(updatedProviderDetails);
     }
 
     @Override
@@ -75,3 +74,6 @@ public class ProviderDetailsServiceImpl implements ProviderDetailsService {
         providerDetailsRepository.deleteById(providerDetailsId);
     }
 }
+
+
+

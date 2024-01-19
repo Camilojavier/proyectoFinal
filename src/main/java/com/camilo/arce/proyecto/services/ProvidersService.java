@@ -1,18 +1,18 @@
 package com.camilo.arce.proyecto.services;
 
-import com.camilo.arce.proyecto.dto.ProvidersDTO;
+import com.camilo.arce.proyecto.dto.ProvidersDto;
 
 import java.util.List;
 
 public interface ProvidersService {
 
-    ProvidersDTO getProviderById(Long providerId);
+    ProvidersDto getProviderById(Long providerId);
 
-    List<ProvidersDTO> getAllProviders();
+    List<ProvidersDto> getAllProviders();
 
-    ProvidersDTO createProvider(ProvidersDTO providersDTO);
+    ProvidersDto createProvider(ProvidersDto providersDTO);
 
-    ProvidersDTO updateProvider(Long providerId, ProvidersDTO providersDTO);
+    ProvidersDto updateProvider(Long providerId, ProvidersDto providersDTO);
 
     void deleteProvider(Long providerId);
 }

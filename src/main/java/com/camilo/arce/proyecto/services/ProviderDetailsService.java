@@ -1,18 +1,18 @@
 package com.camilo.arce.proyecto.services;
 
-import com.camilo.arce.proyecto.dto.ProviderDetailsDTO;
+import com.camilo.arce.proyecto.dto.ProviderDetailsDto;
 
 import java.util.List;
 
 public interface ProviderDetailsService {
 
-    ProviderDetailsDTO getProviderDetailsById(Long providerDetailsId);
+    ProviderDetailsDto getProviderDetailsById(Long providerDetailsId);
 
-    List<ProviderDetailsDTO> getAllProviderDetails();
+    List<ProviderDetailsDto> getAllProviderDetails();
 
-    ProviderDetailsDTO createProviderDetails(ProviderDetailsDTO providerDetailsDTO);
+    ProviderDetailsDto createProviderDetails(ProviderDetailsDto providerDetailsDTO);
 
-    ProviderDetailsDTO updateProviderDetails(Long providerDetailsId, ProviderDetailsDTO providerDetailsDTO);
+    ProviderDetailsDto updateProviderDetails(Long providerDetailsId, ProviderDetailsDto providerDetailsDTO);
 
     void deleteProviderDetails(Long providerDetailsId);
 }
