@@ -1,18 +1,18 @@
 package com.camilo.arce.proyecto.services;
 
-import com.camilo.arce.proyecto.dto.DiscoveryDTO;
+import com.camilo.arce.proyecto.dto.DiscoveryDto;
 
 import java.util.List;
 
 public interface DiscoveryService {
 
-    DiscoveryDTO getDiscoveryById(Long discoveryId);
+    DiscoveryDto getDiscoveryById(Long discoveryId);
 
-    List<DiscoveryDTO> getAllDiscoveries();
+    List<DiscoveryDto> getAllDiscoveries();
 
-    DiscoveryDTO createDiscovery(DiscoveryDTO discoveryDTO);
+    DiscoveryDto createDiscovery(DiscoveryDto discoveryDTO);
 
-    DiscoveryDTO updateDiscovery(Long discoveryId, DiscoveryDTO discoveryDTO);
+    DiscoveryDto updateDiscovery(Long discoveryId, DiscoveryDto discoveryDTO);
 
     void deleteDiscovery(Long discoveryId);
 }

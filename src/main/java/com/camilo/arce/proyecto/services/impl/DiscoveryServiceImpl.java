@@ -1,9 +1,8 @@
 package com.camilo.arce.proyecto.services.impl;
 
 import com.camilo.arce.proyecto.domain.entities.Discovery;
-import com.camilo.arce.proyecto.dto.DiscoveryDTO;
+import com.camilo.arce.proyecto.dto.DiscoveryDto;
 import com.camilo.arce.proyecto.repositories.DiscoveryRepository;
-import com.camilo.arce.proyecto.repositories.ProvidersRepository;
 import com.camilo.arce.proyecto.services.DiscoveryService;
 import com.camilo.arce.proyecto.services.mapper.DiscoveryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,57 +15,58 @@ import java.util.stream.Collectors;
 public class DiscoveryServiceImpl implements DiscoveryService {
 
     private final DiscoveryRepository discoveryRepository;
+    private final DiscoveryMapper discoveryMapper;  // Añade tu propio DiscoveryMapper
 
     @Autowired
-    public DiscoveryServiceImpl(DiscoveryRepository discoveryRepository, ProvidersRepository providersRepository) {
+    public DiscoveryServiceImpl(DiscoveryRepository discoveryRepository, DiscoveryMapper discoveryMapper) {
         this.discoveryRepository = discoveryRepository;
+        this.discoveryMapper = discoveryMapper;
     }
 
     @Override
-    public DiscoveryDTO getDiscoveryById(Long discoveryId) {
+    public DiscoveryDto getDiscoveryById(Long discoveryId) {
         Discovery discovery = discoveryRepository.findById(discoveryId)
                 .orElseThrow(() -> new RuntimeException("Descubrimiento no encontrado con ID: " + discoveryId));
-        return DiscoveryMapper.INSTANCE.toDto(discovery);
+        return discoveryMapper.toDto(discovery);
     }
 
     @Override
-    public List<DiscoveryDTO> getAllDiscoveries() {
+    public List<DiscoveryDto> getAllDiscoveries() {
         List<Discovery> allDiscoveries = discoveryRepository.findAll();
         return allDiscoveries.stream()
-                .map(DiscoveryMapper.INSTANCE::toDto)
+                .map(discoveryMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public DiscoveryDTO createDiscovery(DiscoveryDTO discoveryDTO) {
-        Discovery newDiscovery = DiscoveryMapper.INSTANCE.toEntity(discoveryDTO);
+    public DiscoveryDto createDiscovery(DiscoveryDto discoveryDTO) {
+        Discovery newDiscovery = discoveryMapper.toEntity(discoveryDTO);
         Discovery savedDiscovery = discoveryRepository.save(newDiscovery);
-        return DiscoveryMapper.INSTANCE.toDto(savedDiscovery);
+        return discoveryMapper.toDto(savedDiscovery);
     }
 
     @Override
-    public DiscoveryDTO updateDiscovery(Long discoveryId, DiscoveryDTO discoveryDTO) {
+    public DiscoveryDto updateDiscovery(Long discoveryId, DiscoveryDto discoveryDto) {
         Discovery existingDiscovery = discoveryRepository.findById(discoveryId)
                 .orElseThrow(() -> new RuntimeException("Descubrimiento no encontrado con ID: " + discoveryId));
 
-        if (discoveryDTO.getIssuer() != null && !discoveryDTO.getIssuer().isEmpty()) {
-            existingDiscovery.setIssuer(discoveryDTO.getIssuer());
+        if (discoveryDto.getIssuer() != null && !discoveryDto.getIssuer().isEmpty()) {
+            existingDiscovery.setIssuer(discoveryDto.getIssuer());
+        }
+        if (discoveryDto.getAuthEndpoint() != null && !discoveryDto.getAuthEndpoint().isEmpty()) {
+            existingDiscovery.setAuthEndpoint(discoveryDto.getAuthEndpoint());
         }
 
-        if (discoveryDTO.getAuthEndpoint() != null && !discoveryDTO.getAuthEndpoint().isEmpty()) {
-            existingDiscovery.setAuthEndpoint(discoveryDTO.getAuthEndpoint());
+        if (discoveryDto.getTokenEndpoint() != null && !discoveryDto.getTokenEndpoint().isEmpty()) {
+            existingDiscovery.setTokenEndpoint(discoveryDto.getTokenEndpoint());
         }
 
-        if (discoveryDTO.getTokenEndpoint() != null && !discoveryDTO.getTokenEndpoint().isEmpty()) {
-            existingDiscovery.setTokenEndpoint(discoveryDTO.getTokenEndpoint());
-        }
-
-        if (discoveryDTO.getJwksUri() != null && !discoveryDTO.getJwksUri().isEmpty()) {
-            existingDiscovery.setJwksUri(discoveryDTO.getJwksUri());
+        if (discoveryDto.getJwksUri() != null && !discoveryDto.getJwksUri().isEmpty()) {
+            existingDiscovery.setJwksUri(discoveryDto.getJwksUri());
         }
 
         Discovery updatedDiscovery = discoveryRepository.save(existingDiscovery);
-        return DiscoveryMapper.INSTANCE.toDto(updatedDiscovery);
+        return discoveryMapper.toDto(updatedDiscovery);
     }
 
     @Override

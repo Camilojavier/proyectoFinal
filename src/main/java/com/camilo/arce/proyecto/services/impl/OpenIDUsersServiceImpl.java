@@ -1,10 +1,8 @@
 package com.camilo.arce.proyecto.services.impl;
 
 import com.camilo.arce.proyecto.domain.entities.OpenIDUsers;
-import com.camilo.arce.proyecto.dto.OpenIDUsersDTO;
+import com.camilo.arce.proyecto.dto.OpenIDUsersDto;
 import com.camilo.arce.proyecto.repositories.OpenIDUsersRepository;
-import com.camilo.arce.proyecto.repositories.ProvidersRepository;
-import com.camilo.arce.proyecto.repositories.UsersRepository;
 import com.camilo.arce.proyecto.services.OpenIDUsersService;
 import com.camilo.arce.proyecto.services.mapper.OpenIDUsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,60 +15,58 @@ import java.util.stream.Collectors;
 public class OpenIDUsersServiceImpl implements OpenIDUsersService {
 
     private final OpenIDUsersRepository openIDUsersRepository;
-    private final UsersRepository usersRepository;
-    private final ProvidersRepository providersRepository;
+    private final OpenIDUsersMapper openIDUsersMapper;  // Añade tu propio OpenIDUsersMapper
 
     @Autowired
-    public OpenIDUsersServiceImpl(OpenIDUsersRepository openIDUsersRepository, UsersRepository usersRepository, ProvidersRepository providersRepository) {
+    public OpenIDUsersServiceImpl(OpenIDUsersRepository openIDUsersRepository, OpenIDUsersMapper openIDUsersMapper) {
         this.openIDUsersRepository = openIDUsersRepository;
-        this.usersRepository = usersRepository;
-        this.providersRepository = providersRepository;
+        this.openIDUsersMapper = openIDUsersMapper;
     }
 
     @Override
-    public OpenIDUsersDTO getOpenIDUserById(Long openIdUsersId) {
+    public OpenIDUsersDto getOpenIDUserById(Long openIdUsersId) {
         OpenIDUsers openIDUsers = openIDUsersRepository.findById(openIdUsersId)
                 .orElseThrow(() -> new RuntimeException("Usuario OpenID no encontrado con ID: " + openIdUsersId));
-        return OpenIDUsersMapper.INSTANCE.toDto(openIDUsers);
+        return openIDUsersMapper.toDto(openIDUsers);
     }
 
     @Override
-    public List<OpenIDUsersDTO> getAllOpenIDUsers() {
+    public List<OpenIDUsersDto> getAllOpenIDUsers() {
         List<OpenIDUsers> allOpenIDUsers = openIDUsersRepository.findAll();
         return allOpenIDUsers.stream()
-                .map(OpenIDUsersMapper.INSTANCE::toDto)
+                .map(openIDUsersMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public OpenIDUsersDTO createOpenIDUser(OpenIDUsersDTO openIDUsersDTO) {
-        OpenIDUsers newOpenIDUser = OpenIDUsersMapper.INSTANCE.toEntity(openIDUsersDTO);
+    public OpenIDUsersDto createOpenIDUser(OpenIDUsersDto openIDUsersDTO) {
+        OpenIDUsers newOpenIDUser = openIDUsersMapper.toEntity(openIDUsersDTO);
         OpenIDUsers savedOpenIDUser = openIDUsersRepository.save(newOpenIDUser);
-        return OpenIDUsersMapper.INSTANCE.toDto(savedOpenIDUser);
+        return openIDUsersMapper.toDto(savedOpenIDUser);
     }
 
     @Override
-    public OpenIDUsersDTO updateOpenIDUser(Long openIdUsersId, OpenIDUsersDTO openIDUsersDTO) {
+    public OpenIDUsersDto updateOpenIDUser(Long openIdUsersId, OpenIDUsersDto openIDUsersDto) {
         OpenIDUsers existingOpenIDUser = openIDUsersRepository.findById(openIdUsersId)
                 .orElseThrow(() -> new RuntimeException("Usuario OpenID no encontrado con ID: " + openIdUsersId));
 
-        if (openIDUsersDTO.getSubjectId() != null && !openIDUsersDTO.getSubjectId().isEmpty()) {
-            existingOpenIDUser.setSubjectId(openIDUsersDTO.getSubjectId());
+        if (openIDUsersDto.getSubjectId() != null && !openIDUsersDto.getSubjectId().isEmpty()) {
+            existingOpenIDUser.setSubjectId(openIDUsersDto.getSubjectId());
+        }
+        if (openIDUsersDto.getMail() != null && !openIDUsersDto.getMail().isEmpty()) {
+            existingOpenIDUser.setMail(openIDUsersDto.getMail());
         }
 
-        if (openIDUsersDTO.getMail() != null && !openIDUsersDTO.getMail().isEmpty()) {
-            existingOpenIDUser.setMail(openIDUsersDTO.getMail());
+        if (openIDUsersDto.getIssuer() != null && !openIDUsersDto.getIssuer().isEmpty()) {
+            existingOpenIDUser.setIssuer(openIDUsersDto.getIssuer());
         }
 
-        if (openIDUsersDTO.getIssuer() != null && !openIDUsersDTO.getIssuer().isEmpty()) {
-            existingOpenIDUser.setIssuer(openIDUsersDTO.getIssuer());
+        if (openIDUsersDto.getOpenIdDN() != null && !openIDUsersDto.getOpenIdDN().isEmpty()) {
+            existingOpenIDUser.setOpenIdDN(openIDUsersDto.getOpenIdDN());
         }
 
-        if (openIDUsersDTO.getOpenIdDN() != null && !openIDUsersDTO.getOpenIdDN().isEmpty()) {
-            existingOpenIDUser.setOpenIdDN(openIDUsersDTO.getOpenIdDN());
-        }
         OpenIDUsers updatedOpenIDUser = openIDUsersRepository.save(existingOpenIDUser);
-        return OpenIDUsersMapper.INSTANCE.toDto(updatedOpenIDUser);
+        return openIDUsersMapper.toDto(updatedOpenIDUser);
     }
 
     @Override
@@ -78,3 +74,5 @@ public class OpenIDUsersServiceImpl implements OpenIDUsersService {
         openIDUsersRepository.deleteById(openIdUsersId);
     }
 }
+
+

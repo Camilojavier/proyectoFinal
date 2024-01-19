@@ -1,18 +1,18 @@
 package com.camilo.arce.proyecto.services;
 
-import com.camilo.arce.proyecto.dto.OpenIDUsersDTO;
+import com.camilo.arce.proyecto.dto.OpenIDUsersDto;
 
 import java.util.List;
 
 public interface OpenIDUsersService {
 
-    OpenIDUsersDTO getOpenIDUserById(Long openIdUsersId);
+    OpenIDUsersDto getOpenIDUserById(Long openIdUsersId);
 
-    List<OpenIDUsersDTO> getAllOpenIDUsers();
+    List<OpenIDUsersDto> getAllOpenIDUsers();
 
-    OpenIDUsersDTO createOpenIDUser(OpenIDUsersDTO openIDUsersDTO);
+    OpenIDUsersDto createOpenIDUser(OpenIDUsersDto openIDUsersDTO);
 
-    OpenIDUsersDTO updateOpenIDUser(Long openIdUsersId, OpenIDUsersDTO openIDUsersDTO);
+    OpenIDUsersDto updateOpenIDUser(Long openIdUsersId, OpenIDUsersDto openIDUsersDTO);
 
     void deleteOpenIDUser(Long openIdUsersId);
 }
