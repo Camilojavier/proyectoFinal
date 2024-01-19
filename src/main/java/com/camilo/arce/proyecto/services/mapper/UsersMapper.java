@@ -1,16 +1,37 @@
 package com.camilo.arce.proyecto.services.mapper;
 
 import com.camilo.arce.proyecto.domain.entities.Users;
-import com.camilo.arce.proyecto.dto.UsersDTO;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import com.camilo.arce.proyecto.dto.UsersDto;
+import org.springframework.stereotype.Component;
 
-@Mapper
-public interface UsersMapper {
+@Component
+public class UsersMapper implements CustomMapper<UsersDto,Users> {
 
-    UsersMapper INSTANCE = Mappers.getMapper(UsersMapper.class);
 
-    UsersDTO toDto(Users users);
+    @Override
+    public UsersDto toDto(Users user) {
+        final UsersDto userDto = new UsersDto();
+        userDto.setUsername(user.getUsername());
+        userDto.setUserId(user.getUserId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPhone(user.getPhone());
+        userDto.setHashedPassword(user.getHashedPassword());
+        userDto.setEmail(user.getEmail());
+        return userDto;
+    }
 
-    Users toEntity(UsersDTO usersDTO);
+    @Override
+    public Users toEntity(UsersDto userDto) {
+        final Users user = new Users();
+        user.setUserId(userDto.getUserId());
+        user.setUsername(userDto.getUsername());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPhone(userDto.getPhone());
+        user.setHashedPassword(userDto.getHashedPassword());
+        return user;
+    }
 }

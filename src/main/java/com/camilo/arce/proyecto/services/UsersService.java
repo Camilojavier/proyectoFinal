@@ -1,18 +1,19 @@
 package com.camilo.arce.proyecto.services;
 
-import com.camilo.arce.proyecto.dto.UsersDTO;
+import com.camilo.arce.proyecto.dto.UsersDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UsersService {
 
-    UsersDTO getUserById(Long userId);
+    Optional<UsersDto> getUserById(Long userId);
 
-    List<UsersDTO> getAllUsers();
+    List<UsersDto> getAllUsers();
 
-    UsersDTO createUser(UsersDTO usersDTO);
+    UsersDto createUser(UsersDto usersDTO);
 
-    UsersDTO updateUser(Long userId, UsersDTO usersDTO);
+    UsersDto updateUser(Long userId, UsersDto usersDTO);
 
     void deleteUser(Long userId);
 }

@@ -1,79 +1,90 @@
 package com.camilo.arce.proyecto.services.impl;
 
 import com.camilo.arce.proyecto.domain.entities.Users;
-import com.camilo.arce.proyecto.dto.UsersDTO;
+import com.camilo.arce.proyecto.dto.UsersDto;
 import com.camilo.arce.proyecto.repositories.UsersRepository;
 import com.camilo.arce.proyecto.services.UsersService;
 import com.camilo.arce.proyecto.services.mapper.UsersMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
+    private final UsersMapper usersMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UsersServiceImpl(UsersRepository usersRepository) {
+
+    public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper, BCryptPasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
+        this.usersMapper = usersMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UsersDTO getUserById(Long userId) {
-        Users users = usersRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
-        return UsersMapper.INSTANCE.toDto(users);
+    @Transactional(readOnly = true)
+    public Optional<UsersDto> getUserById(Long userId) {
+        return usersRepository.findById(userId).map(usersMapper::toDto);
     }
 
     @Override
-    public List<UsersDTO> getAllUsers() {
-        List<Users> allUsers = usersRepository.findAll();
-        return allUsers.stream()
-                .map(UsersMapper.INSTANCE::toDto)
+    @Transactional(readOnly = true)
+    public List<UsersDto> getAllUsers() {
+        return usersRepository.findAll()
+                .stream()
+                .map(usersMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UsersDTO createUser(UsersDTO usersDTO) {
-        Users newUser = UsersMapper.INSTANCE.toEntity(usersDTO);
-        Users savedUser = usersRepository.save(newUser);
-        return UsersMapper.INSTANCE.toDto(savedUser);
+    public UsersDto createUser(UsersDto usersDto) {
+        String encryptedPassword = passwordEncoder.encode(usersDto.getHashedPassword());
+        usersDto.setHashedPassword(encryptedPassword);
+        Users savedUser = usersRepository.save(usersMapper.toEntity(usersDto));
+        return usersMapper.toDto(savedUser);
     }
 
     @Override
-    public UsersDTO updateUser(Long userId, UsersDTO usersDTO) {
+    public UsersDto updateUser(Long userId, UsersDto usersDto) {
         Users existingUser = usersRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + userId));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Usuario no encontrado con ID: " + userId));
 
-        if (usersDTO.getUsername() != null && !usersDTO.getUsername().isEmpty()) {
-            existingUser.setUsername(usersDTO.getUsername());
+        if (usersDto.getUsername() != null && !usersDto.getUsername().isEmpty()) {
+            existingUser.setUsername(usersDto.getUsername());
         }
 
-        if (usersDTO.getFirstName() != null && !usersDTO.getFirstName().isEmpty()) {
-            existingUser.setFirstName(usersDTO.getFirstName());
+        if (usersDto.getFirstName() != null && !usersDto.getFirstName().isEmpty()) {
+            existingUser.setFirstName(usersDto.getFirstName());
         }
 
-        if (usersDTO.getLastName() != null && !usersDTO.getLastName().isEmpty()) {
-            existingUser.setLastName(usersDTO.getLastName());
+        if (usersDto.getLastName() != null && !usersDto.getLastName().isEmpty()) {
+            existingUser.setLastName(usersDto.getLastName());
         }
 
-        if (usersDTO.getEmail() != null && !usersDTO.getEmail().isEmpty()) {
-            existingUser.setEmail(usersDTO.getEmail());
+        if (usersDto.getEmail() != null && !usersDto.getEmail().isEmpty()) {
+            existingUser.setEmail(usersDto.getEmail());
         }
 
-        if (usersDTO.getHashedPassword() != null && !usersDTO.getHashedPassword().isEmpty()) {
-            existingUser.setHashedPassword(usersDTO.getHashedPassword());
+        if (usersDto.getHashedPassword() != null && !usersDto.getHashedPassword().isEmpty()) {
+            String encryptedPassword = passwordEncoder.encode(usersDto.getHashedPassword());
+            existingUser.setHashedPassword(encryptedPassword);
         }
 
-        if (usersDTO.getPhone() != null && !usersDTO.getPhone().isEmpty()) {
-            existingUser.setPhone(usersDTO.getPhone());
+        if (usersDto.getPhone() != null && !usersDto.getPhone().isEmpty()) {
+            existingUser.setPhone(usersDto.getPhone());
         }
 
         Users updatedUser = usersRepository.save(existingUser);
-        return UsersMapper.INSTANCE.toDto(updatedUser);
+        return usersMapper.toDto(updatedUser);
     }
 
 
