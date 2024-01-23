@@ -3,10 +3,11 @@ package com.camilo.arce.proyecto.services;
 import com.camilo.arce.proyecto.dto.DiscoveryDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DiscoveryService {
 
-    DiscoveryDto getDiscoveryById(Long discoveryId);
+    Optional<DiscoveryDto> getDiscoveryById(Long discoveryId);
 
     List<DiscoveryDto> getAllDiscoveries();
 

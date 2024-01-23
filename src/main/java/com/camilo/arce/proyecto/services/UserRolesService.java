@@ -1,14 +1,13 @@
 package com.camilo.arce.proyecto.services;
 
-import com.camilo.arce.proyecto.dto.RolesDto;
 import com.camilo.arce.proyecto.dto.UserRolesDto;
-import com.camilo.arce.proyecto.dto.UsersDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRolesService {
 
-    UserRolesDto getUserRoleById(Long userRoleId);
+    Optional<UserRolesDto> getUserRoleById(Long userRoleId);
 
     List<UserRolesDto> getAllUserRoles();
 

@@ -3,10 +3,11 @@ package com.camilo.arce.proyecto.services;
 import com.camilo.arce.proyecto.dto.ProviderDetailsDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProviderDetailsService {
 
-    ProviderDetailsDto getProviderDetailsById(Long providerDetailsId);
+    Optional<ProviderDetailsDto> getProviderDetailsById(Long providerDetailsId);
 
     List<ProviderDetailsDto> getAllProviderDetails();
 

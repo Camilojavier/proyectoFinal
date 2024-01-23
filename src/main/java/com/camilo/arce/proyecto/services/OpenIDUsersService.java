@@ -3,10 +3,11 @@ package com.camilo.arce.proyecto.services;
 import com.camilo.arce.proyecto.dto.OpenIDUsersDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OpenIDUsersService {
 
-    OpenIDUsersDto getOpenIDUserById(Long openIdUsersId);
+    Optional<OpenIDUsersDto> getOpenIDUserById(Long openIdUsersId);
 
     List<OpenIDUsersDto> getAllOpenIDUsers();
 
