@@ -25,8 +25,8 @@ public class UsersController {
 
     @GetMapping(Api.USER_ID)
     public ResponseEntity<UsersDto> getUserById(@PathVariable Long userId) {
-        Optional<UsersDto> roleDTO = usersService.getUserById(userId);
-        return roleDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<UsersDto> usersDTO = usersService.getUserById(userId);
+        return usersDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping
