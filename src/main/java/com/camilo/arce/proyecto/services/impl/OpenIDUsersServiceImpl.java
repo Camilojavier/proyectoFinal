@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,10 +25,8 @@ public class OpenIDUsersServiceImpl implements OpenIDUsersService {
     }
 
     @Override
-    public OpenIDUsersDto getOpenIDUserById(Long openIdUsersId) {
-        OpenIDUsers openIDUsers = openIDUsersRepository.findById(openIdUsersId)
-                .orElseThrow(() -> new RuntimeException("Usuario OpenID no encontrado con ID: " + openIdUsersId));
-        return openIDUsersMapper.toDto(openIDUsers);
+    public Optional<OpenIDUsersDto> getOpenIDUserById(Long openIdUsersId) {
+        return openIDUsersRepository.findById(openIdUsersId).map(openIDUsersMapper::toDto);
     }
 
     @Override

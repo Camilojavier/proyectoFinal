@@ -37,10 +37,9 @@ public class UserRolesServiceImpl implements UserRolesService {
     }
 
     @Override
-    public UserRolesDto getUserRoleById(Long userRoleId) {
+    public Optional<UserRolesDto> getUserRoleById(Long userRoleId) {
         return userRolesRepository.findById(userRoleId)
-                .map(userRolesMapper::toDto)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "UserRole no encontrado con ID: " + userRoleId));
+                .map(userRolesMapper::toDto);
     }
 
     @Override

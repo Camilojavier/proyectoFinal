@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(UserRolesApi.USER_ROLES_ROUTE)
@@ -23,8 +24,8 @@ public class UserRolesController {
 
     @GetMapping(UserRolesApi.USER_ROLES_ID)
     public ResponseEntity<UserRolesDto> getUserRoleById(@PathVariable Long userRolesId) {
-        UserRolesDto userRoleDTO = userRolesService.getUserRoleById(userRolesId);
-        return ResponseEntity.ok(userRoleDTO);
+        Optional<UserRolesDto> userRoleDTO = userRolesService.getUserRoleById(userRolesId);
+        return userRoleDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping(UserRolesApi.USERS_BY_ROLE_ID)

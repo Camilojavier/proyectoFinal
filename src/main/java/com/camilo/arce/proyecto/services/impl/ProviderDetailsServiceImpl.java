@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,10 +25,9 @@ public class ProviderDetailsServiceImpl implements ProviderDetailsService {
     }
 
     @Override
-    public ProviderDetailsDto getProviderDetailsById(Long providerDetailsId) {
-        ProviderDetails providerDetails = providerDetailsRepository.findById(providerDetailsId)
-                .orElseThrow(() -> new RuntimeException("Detalles del proveedor no encontrados con ID: " + providerDetailsId));
-        return providerDetailsMapper.toDto(providerDetails);
+    public Optional<ProviderDetailsDto> getProviderDetailsById(Long providerDetailsId) {
+        return providerDetailsRepository.findById(providerDetailsId)
+                .map(providerDetailsMapper::toDto);
     }
 
     @Override

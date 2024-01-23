@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,10 +25,8 @@ public class DiscoveryServiceImpl implements DiscoveryService {
     }
 
     @Override
-    public DiscoveryDto getDiscoveryById(Long discoveryId) {
-        Discovery discovery = discoveryRepository.findById(discoveryId)
-                .orElseThrow(() -> new RuntimeException("Descubrimiento no encontrado con ID: " + discoveryId));
-        return discoveryMapper.toDto(discovery);
+    public Optional<DiscoveryDto> getDiscoveryById(Long discoveryId) {
+        return discoveryRepository.findById(discoveryId).map(discoveryMapper::toDto);
     }
 
     @Override
