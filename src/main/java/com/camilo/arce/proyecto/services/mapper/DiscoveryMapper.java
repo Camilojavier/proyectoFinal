@@ -1,11 +1,21 @@
 package com.camilo.arce.proyecto.services.mapper;
 
 import com.camilo.arce.proyecto.domain.entities.Discovery;
+import com.camilo.arce.proyecto.domain.entities.Providers;
 import com.camilo.arce.proyecto.dto.DiscoveryDto;
+import com.camilo.arce.proyecto.dto.ProvidersDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DiscoveryMapper implements CustomMapper<DiscoveryDto, Discovery> {
+
+    private final ProvidersMapper providersMapper;
+
+    @Autowired
+    public DiscoveryMapper(ProvidersMapper providersMapper) {
+        this.providersMapper = providersMapper;
+    }
 
     @Override
     public DiscoveryDto toDto(Discovery discovery) {
@@ -15,7 +25,10 @@ public class DiscoveryMapper implements CustomMapper<DiscoveryDto, Discovery> {
         discoveryDto.setAuthEndpoint(discovery.getAuthEndpoint());
         discoveryDto.setTokenEndpoint(discovery.getTokenEndpoint());
         discoveryDto.setJwksUri(discovery.getJwksUri());
-        // set other Discovery properties
+        if (discovery.getProviders() != null) {
+            ProvidersDto providersDto = providersMapper.toDto(discovery.getProviders());
+            discoveryDto.setProviders(providersDto);
+        }
         return discoveryDto;
     }
 
@@ -27,7 +40,11 @@ public class DiscoveryMapper implements CustomMapper<DiscoveryDto, Discovery> {
         discovery.setAuthEndpoint(discoveryDto.getAuthEndpoint());
         discovery.setTokenEndpoint(discoveryDto.getTokenEndpoint());
         discovery.setJwksUri(discoveryDto.getJwksUri());
-        // set other Discovery properties
+        if (discoveryDto.getProviders() != null) {
+            final Providers providers = providersMapper.toEntity(discoveryDto.getProviders());
+            discovery.setProviders(providers);
+        }
         return discovery;
     }
 }
+
