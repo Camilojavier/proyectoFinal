@@ -24,7 +24,7 @@ public class Discovery implements DiscoveryAnnotations {
     @Column(name = JWKS_URI)
     private String jwksUri;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = PROVIDER_ID)
     private Providers providers;
 
