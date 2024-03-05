@@ -2,9 +2,11 @@ package com.camilo.arce.proyecto.services.mapper;
 
 import com.camilo.arce.proyecto.domain.entities.Users;
 import com.camilo.arce.proyecto.dto.UsersDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UsersMapper implements CustomMapper<UsersDto,Users> {
 
 

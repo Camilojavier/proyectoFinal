@@ -2,9 +2,11 @@ package com.camilo.arce.proyecto.services.mapper;
 
 import com.camilo.arce.proyecto.domain.entities.Roles;
 import com.camilo.arce.proyecto.dto.RolesDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class RolesMapper implements CustomMapper<RolesDto, Roles> {
 
     @Override

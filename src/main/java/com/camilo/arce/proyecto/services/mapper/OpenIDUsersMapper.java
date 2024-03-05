@@ -6,19 +6,14 @@ import com.camilo.arce.proyecto.domain.entities.Users;
 import com.camilo.arce.proyecto.dto.OpenIDUsersDto;
 import com.camilo.arce.proyecto.dto.ProvidersDto;
 import com.camilo.arce.proyecto.dto.UsersDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class OpenIDUsersMapper implements CustomMapper<OpenIDUsersDto, OpenIDUsers> {
     private final UsersMapper usersMapper;
     private final ProvidersMapper providersMapper;
-
-    @Autowired
-    public OpenIDUsersMapper(UsersMapper usersMapper,ProvidersMapper providersMapper) {
-        this.usersMapper = usersMapper;
-        this.providersMapper = providersMapper;
-    }
 
     @Override
     public OpenIDUsersDto toDto(OpenIDUsers openIDUsers) {

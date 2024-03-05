@@ -4,18 +4,14 @@ import com.camilo.arce.proyecto.domain.entities.Discovery;
 import com.camilo.arce.proyecto.domain.entities.Providers;
 import com.camilo.arce.proyecto.dto.DiscoveryDto;
 import com.camilo.arce.proyecto.dto.ProvidersDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DiscoveryMapper implements CustomMapper<DiscoveryDto, Discovery> {
 
     private final ProvidersMapper providersMapper;
-
-    @Autowired
-    public DiscoveryMapper(ProvidersMapper providersMapper) {
-        this.providersMapper = providersMapper;
-    }
 
     @Override
     public DiscoveryDto toDto(Discovery discovery) {

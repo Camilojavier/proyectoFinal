@@ -2,9 +2,11 @@ package com.camilo.arce.proyecto.services.mapper;
 
 import com.camilo.arce.proyecto.domain.entities.Providers;
 import com.camilo.arce.proyecto.dto.ProvidersDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ProvidersMapper implements CustomMapper<ProvidersDto, Providers> {
 
     @Override

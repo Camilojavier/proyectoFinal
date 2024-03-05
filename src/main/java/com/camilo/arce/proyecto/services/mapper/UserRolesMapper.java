@@ -6,20 +6,15 @@ import com.camilo.arce.proyecto.domain.entities.Users;
 import com.camilo.arce.proyecto.dto.RolesDto;
 import com.camilo.arce.proyecto.dto.UserRolesDto;
 import com.camilo.arce.proyecto.dto.UsersDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UserRolesMapper implements CustomMapper<UserRolesDto, UserRoles> {
 
     private final UsersMapper usersMapper;
     private final RolesMapper rolesMapper ;
-
-    @Autowired
-    public UserRolesMapper(UsersMapper usersMapper,RolesMapper rolesMapper) {
-        this.usersMapper = usersMapper;
-        this.rolesMapper = rolesMapper;
-    }
 
     @Override
     public UserRolesDto toDto(UserRoles userRole) {
