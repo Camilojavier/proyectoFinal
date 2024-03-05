@@ -9,6 +9,7 @@ import com.camilo.arce.proyecto.repositories.UserRolesRepository;
 import com.camilo.arce.proyecto.repositories.UsersRepository;
 import com.camilo.arce.proyecto.services.UserRolesService;
 import com.camilo.arce.proyecto.services.mapper.UserRolesMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,20 +22,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserRolesServiceImpl implements UserRolesService {
 
     private final UserRolesRepository userRolesRepository;
     private final UserRolesMapper userRolesMapper;
     private final UsersRepository usersRepository;
     private final RolesRepository rolesRepository;
-
-    @Autowired
-    public UserRolesServiceImpl(UserRolesRepository userRolesRepository, UserRolesMapper userRolesMapper, UsersRepository usersRepository, RolesRepository rolesRepository) {
-        this.userRolesRepository = userRolesRepository;
-        this.userRolesMapper = userRolesMapper;
-        this.usersRepository = usersRepository;
-        this.rolesRepository = rolesRepository;
-    }
 
     @Override
     public Optional<UserRolesDto> getUserRoleById(Long userRoleId) {

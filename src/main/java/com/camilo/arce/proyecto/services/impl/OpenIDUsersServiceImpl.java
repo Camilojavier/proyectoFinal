@@ -5,6 +5,8 @@ import com.camilo.arce.proyecto.dto.OpenIDUsersDto;
 import com.camilo.arce.proyecto.repositories.OpenIDUsersRepository;
 import com.camilo.arce.proyecto.services.OpenIDUsersService;
 import com.camilo.arce.proyecto.services.mapper.OpenIDUsersMapper;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +15,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class OpenIDUsersServiceImpl implements OpenIDUsersService {
 
     private final OpenIDUsersRepository openIDUsersRepository;
-    private final OpenIDUsersMapper openIDUsersMapper;  // Añade tu propio OpenIDUsersMapper
-
-    @Autowired
-    public OpenIDUsersServiceImpl(OpenIDUsersRepository openIDUsersRepository, OpenIDUsersMapper openIDUsersMapper) {
-        this.openIDUsersRepository = openIDUsersRepository;
-        this.openIDUsersMapper = openIDUsersMapper;
-    }
+    private final OpenIDUsersMapper openIDUsersMapper;
 
     @Override
     public Optional<OpenIDUsersDto> getOpenIDUserById(Long openIdUsersId) {

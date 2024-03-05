@@ -5,6 +5,7 @@ import com.camilo.arce.proyecto.dto.UsersDto;
 import com.camilo.arce.proyecto.repositories.UsersRepository;
 import com.camilo.arce.proyecto.services.UsersService;
 import com.camilo.arce.proyecto.services.mapper.UsersMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,18 +18,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
     private final UsersMapper usersMapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
-
-    public UsersServiceImpl(UsersRepository usersRepository, UsersMapper usersMapper, BCryptPasswordEncoder passwordEncoder) {
-        this.usersRepository = usersRepository;
-        this.usersMapper = usersMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     @Transactional(readOnly = true)

@@ -5,6 +5,7 @@ import com.camilo.arce.proyecto.dto.RolesDto;
 import com.camilo.arce.proyecto.repositories.RolesRepository;
 import com.camilo.arce.proyecto.services.RolesService;
 import com.camilo.arce.proyecto.services.mapper.RolesMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RolesServiceImpl implements RolesService {
 
     private final RolesRepository rolesRepository;
     private final RolesMapper rolesMapper;
-
-    @Autowired
-    public RolesServiceImpl(RolesRepository rolesRepository, RolesMapper rolesMapper) {
-        this.rolesRepository = rolesRepository;
-        this.rolesMapper = rolesMapper;
-    }
 
     @Override
     @Transactional(readOnly = true)

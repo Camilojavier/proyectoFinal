@@ -5,6 +5,8 @@ import com.camilo.arce.proyecto.dto.DiscoveryDto;
 import com.camilo.arce.proyecto.repositories.DiscoveryRepository;
 import com.camilo.arce.proyecto.services.DiscoveryService;
 import com.camilo.arce.proyecto.services.mapper.DiscoveryMapper;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +15,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class DiscoveryServiceImpl implements DiscoveryService {
 
     private final DiscoveryRepository discoveryRepository;
-    private final DiscoveryMapper discoveryMapper;  // Añade tu propio DiscoveryMapper
-
-    @Autowired
-    public DiscoveryServiceImpl(DiscoveryRepository discoveryRepository, DiscoveryMapper discoveryMapper) {
-        this.discoveryRepository = discoveryRepository;
-        this.discoveryMapper = discoveryMapper;
-    }
+    private final DiscoveryMapper discoveryMapper;
 
     @Override
     public Optional<DiscoveryDto> getDiscoveryById(Long discoveryId) {

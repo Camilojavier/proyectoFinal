@@ -5,6 +5,8 @@ import com.camilo.arce.proyecto.dto.ProviderDetailsDto;
 import com.camilo.arce.proyecto.repositories.ProviderDetailsRepository;
 import com.camilo.arce.proyecto.services.ProviderDetailsService;
 import com.camilo.arce.proyecto.services.mapper.ProviderDetailsMapper;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +15,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class ProviderDetailsServiceImpl implements ProviderDetailsService {
 
     private final ProviderDetailsRepository providerDetailsRepository;
     private final ProviderDetailsMapper providerDetailsMapper;
-
-    @Autowired
-    public ProviderDetailsServiceImpl(ProviderDetailsRepository providerDetailsRepository, ProviderDetailsMapper providerDetailsMapper) {
-        this.providerDetailsRepository = providerDetailsRepository;
-        this.providerDetailsMapper = providerDetailsMapper;
-    }
 
     @Override
     public Optional<ProviderDetailsDto> getProviderDetailsById(Long providerDetailsId) {
