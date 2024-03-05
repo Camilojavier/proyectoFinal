@@ -2,11 +2,9 @@ package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.DiscoveryAnnotations;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 @Entity
 @Table(name = DiscoveryAnnotations.DISCOVERY)
 public class Discovery implements DiscoveryAnnotations {
