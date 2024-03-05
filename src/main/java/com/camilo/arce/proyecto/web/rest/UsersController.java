@@ -4,7 +4,7 @@ import com.camilo.arce.proyecto.dto.UsersDto;
 import com.camilo.arce.proyecto.services.UsersService;
 import com.camilo.arce.proyecto.web.api.Api;
 import com.camilo.arce.proyecto.web.api.UsersApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(UsersApi.USERS_ROUTE)
 public class UsersController {
 
     private final UsersService usersService;
-
-    @Autowired
-    public UsersController(UsersService usersService) {
-        this.usersService = usersService;
-    }
 
     @GetMapping(Api.USER_ID)
     public ResponseEntity<UsersDto> getUserById(@PathVariable Long userId) {

@@ -3,7 +3,7 @@ package com.camilo.arce.proyecto.web.rest;
 import com.camilo.arce.proyecto.dto.UserRolesDto;
 import com.camilo.arce.proyecto.services.UserRolesService;
 import com.camilo.arce.proyecto.web.api.UserRolesApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(UserRolesApi.USER_ROLES_ROUTE)
 public class UserRolesController {
 
     private final UserRolesService userRolesService;
-
-    @Autowired
-    public UserRolesController(UserRolesService userRolesService) {
-        this.userRolesService = userRolesService;
-    }
 
     @GetMapping(UserRolesApi.USER_ROLES_ID)
     public ResponseEntity<UserRolesDto> getUserRoleById(@PathVariable Long userRolesId) {

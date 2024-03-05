@@ -3,7 +3,7 @@ package com.camilo.arce.proyecto.web.rest;
 import com.camilo.arce.proyecto.dto.ProvidersDto;
 import com.camilo.arce.proyecto.services.ProvidersService;
 import com.camilo.arce.proyecto.web.api.ProvidersApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(ProvidersApi.PROVIDERS_ROUTE)
 public class ProvidersController {
 
     private final ProvidersService providersService;
-
-    @Autowired
-    public ProvidersController(ProvidersService providersService) {
-        this.providersService = providersService;
-    }
 
     @GetMapping(ProvidersApi.PROVIDERS_ID)
     public ResponseEntity<ProvidersDto> getProviderById(@PathVariable Long providersId) {

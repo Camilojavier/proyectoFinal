@@ -3,7 +3,7 @@ package com.camilo.arce.proyecto.web.rest;
 import com.camilo.arce.proyecto.dto.ProviderDetailsDto;
 import com.camilo.arce.proyecto.services.ProviderDetailsService;
 import com.camilo.arce.proyecto.web.api.ProviderDetailsApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(ProviderDetailsApi.PROVIDER_DETAILS_ROUTE)
 public class ProviderDetailsController {
 
     private final ProviderDetailsService providerDetailsService;
-
-    @Autowired
-    public ProviderDetailsController(ProviderDetailsService providerDetailsService) {
-        this.providerDetailsService = providerDetailsService;
-    }
 
     @GetMapping(ProviderDetailsApi.PROVIDER_DETAILS_ID)
     public ResponseEntity<ProviderDetailsDto> getProviderDetailsById(@PathVariable Long providerDetailsId) {

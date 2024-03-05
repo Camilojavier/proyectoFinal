@@ -3,7 +3,7 @@ package com.camilo.arce.proyecto.web.rest;
 import com.camilo.arce.proyecto.dto.OpenIDUsersDto;
 import com.camilo.arce.proyecto.services.OpenIDUsersService;
 import com.camilo.arce.proyecto.web.api.OpenIDUsersApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(OpenIDUsersApi.OPENID_USERS_ROUTE)
 public class OpenIDUsersController {
 
     private final OpenIDUsersService openIDUsersService;
-
-    @Autowired
-    public OpenIDUsersController(OpenIDUsersService openIDUsersService) {
-        this.openIDUsersService = openIDUsersService;
-    }
 
     @GetMapping(OpenIDUsersApi.OPENID_USER_ID)
     public ResponseEntity<OpenIDUsersDto> getOpenIDUserById(@PathVariable Long openidUsersId) {

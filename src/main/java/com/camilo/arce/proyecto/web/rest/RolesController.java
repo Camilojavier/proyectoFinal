@@ -4,7 +4,7 @@ import com.camilo.arce.proyecto.dto.RolesDto;
 import com.camilo.arce.proyecto.services.RolesService;
 import com.camilo.arce.proyecto.web.api.Api;
 import com.camilo.arce.proyecto.web.api.RolesApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(RolesApi.ROLES_ROUTE)
 public class RolesController {
 
     private final RolesService rolesService;
-
-    @Autowired
-    public RolesController(RolesService rolesService) {
-        this.rolesService = rolesService;
-    }
 
     @GetMapping(Api.ROLE_ID)
     public ResponseEntity<RolesDto> getRoleById(@PathVariable Long roleId) {
