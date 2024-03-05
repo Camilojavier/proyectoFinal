@@ -4,13 +4,11 @@ import com.camilo.arce.proyecto.dto.Messages.UsersMessages;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
 
-@Setter
-@Getter
+@Data
 public class UsersDto implements UsersMessages, Serializable {
 
     private Long userId;
