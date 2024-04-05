@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TokenInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/auth/oidc");;
+                .excludePathPatterns("/auth/oidc");
     }
     @Bean
     public RestTemplate restTemplate(){

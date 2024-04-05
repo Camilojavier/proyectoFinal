@@ -10,7 +10,6 @@ import com.camilo.arce.proyecto.tool.CookieUtils;
 import com.camilo.arce.proyecto.tool.DiscoveryComparator;
 import com.camilo.arce.proyecto.tool.ProviderDetailsComparator;
 import com.camilo.arce.proyecto.web.api.AuthApi;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

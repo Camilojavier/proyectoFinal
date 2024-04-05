@@ -4,9 +4,7 @@ import com.camilo.arce.proyecto.domain.entities.LoginRequest;
 import com.camilo.arce.proyecto.domain.entities.OpenIDRequest;
 import com.camilo.arce.proyecto.domain.entities.UsernamePasswordRequest;
 import com.camilo.arce.proyecto.dto.*;
-import com.camilo.arce.proyecto.repositories.UsersRepository;
 import com.camilo.arce.proyecto.services.AuthService;
-import com.camilo.arce.proyecto.services.mapper.UsersMapper;
 import com.camilo.arce.proyecto.tool.JwtUtils;
 import com.camilo.arce.proyecto.tool.TokenParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,8 +22,6 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final UsersMapper usersMapper;
-    private final UsersRepository usersRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     @Override

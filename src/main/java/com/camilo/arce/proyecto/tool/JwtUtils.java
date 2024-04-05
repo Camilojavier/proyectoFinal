@@ -3,7 +3,6 @@ package com.camilo.arce.proyecto.tool;
 import com.camilo.arce.proyecto.domain.entities.OpenIDRequest;
 import com.camilo.arce.proyecto.dto.IdTokenDTO;
 import com.camilo.arce.proyecto.dto.JWKSet;
-import com.camilo.arce.proyecto.dto.OpenIDUsersDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -25,7 +23,7 @@ import java.util.Objects;
 public class JwtUtils {
 
 
-    public static IdTokenDTO parseAndVerifyJwt(String rawToken, JWKSet jwkSet, OpenIDRequest openIDRequest) throws JsonProcessingException, NoSuchAlgorithmException, UnsupportedEncodingException, SignatureException, InvalidKeyException {
+    public static IdTokenDTO parseAndVerifyJwt(String rawToken, JWKSet jwkSet, OpenIDRequest openIDRequest) throws JsonProcessingException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         String[] parts = rawToken.split("\\.");
@@ -54,7 +52,7 @@ public class JwtUtils {
         return idTokenDTO;
     }
 
-    private static boolean checkSignature(JWKSet jwkSet, JsonNode jsonHeader, String data, byte[] signature, String clientSecret) throws NoSuchAlgorithmException, UnsupportedEncodingException, SignatureException, InvalidKeyException {
+    private static boolean checkSignature(JWKSet jwkSet, JsonNode jsonHeader, String data, byte[] signature, String clientSecret) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         final String sigAlg = jsonHeader.get("alg").asText();
         switch (sigAlg) {
             case "RS256":
