@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UsersMapper implements CustomMapper<UsersDto,Users> {
 
-
     @Override
     public UsersDto toDto(Users user) {
         final UsersDto userDto = new UsersDto();

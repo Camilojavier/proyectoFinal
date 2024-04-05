@@ -17,7 +17,7 @@ public class ProviderDetailsMapper implements CustomMapper<ProviderDetailsDto, P
     public ProviderDetailsDto toDto(ProviderDetails providerDetails) {
         final ProviderDetailsDto providerDetailsDto = new ProviderDetailsDto();
         providerDetailsDto.setProviderDetailsId(providerDetails.getProviderDetailsId());
-        providerDetailsDto.setScope(providerDetails.getScope());
+        providerDetailsDto.setExtraScopes(providerDetails.getExtraScopes());
         providerDetailsDto.setResponseType(providerDetails.getResponseType());
         providerDetailsDto.setDisplay(providerDetails.getDisplay());
         providerDetailsDto.setPrompt(providerDetails.getPrompt());
@@ -33,7 +33,7 @@ public class ProviderDetailsMapper implements CustomMapper<ProviderDetailsDto, P
     public ProviderDetails toEntity(ProviderDetailsDto providerDetailsDto) {
         final ProviderDetails providerDetails = new ProviderDetails();
         providerDetails.setProviderDetailsId(providerDetailsDto.getProviderDetailsId());
-        providerDetails.setScope(providerDetailsDto.getScope());
+        providerDetails.setExtraScopes(providerDetailsDto.getExtraScopes());
         providerDetails.setResponseType(providerDetailsDto.getResponseType());
         providerDetails.setDisplay(providerDetailsDto.getDisplay());
         providerDetails.setPrompt(providerDetailsDto.getPrompt());

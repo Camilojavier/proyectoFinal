@@ -16,4 +16,6 @@ public interface DiscoveryService {
     DiscoveryDto updateDiscovery(Long discoveryId, DiscoveryDto discoveryDTO);
 
     void deleteDiscovery(Long discoveryId);
+
+    Optional<DiscoveryDto> getDiscoveryByProviderId(Long providerId);
 }

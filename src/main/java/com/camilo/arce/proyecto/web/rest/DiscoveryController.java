@@ -14,11 +14,11 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(DiscoveryApi.DISCOVERY_ROUTE)
-public class DiscoveryController {
+public class DiscoveryController implements  DiscoveryApi{
 
     private final DiscoveryService discoveryService;
 
-    @GetMapping(DiscoveryApi.DISCOVERY_ID)
+    @GetMapping(DISCOVERY_ID)
     public ResponseEntity<DiscoveryDto> getDiscoveryById(@PathVariable Long discoveryId) {
         Optional<DiscoveryDto> discoveryDTO = discoveryService.getDiscoveryById(discoveryId);
         return discoveryDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -36,13 +36,13 @@ public class DiscoveryController {
         return new ResponseEntity<>(createdDiscoveryDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping(DiscoveryApi.DISCOVERY_ID)
+    @PutMapping(DISCOVERY_ID)
     public ResponseEntity<DiscoveryDto> updateDiscovery(@PathVariable Long discoveryId, @RequestBody DiscoveryDto discoveryDTO) {
         DiscoveryDto updatedDiscoveryDTO = discoveryService.updateDiscovery(discoveryId, discoveryDTO);
         return ResponseEntity.ok(updatedDiscoveryDTO);
     }
 
-    @DeleteMapping(DiscoveryApi.DISCOVERY_ID)
+    @DeleteMapping(DISCOVERY_ID)
     public ResponseEntity<Void> deleteDiscovery(@PathVariable Long discoveryId) {
         discoveryService.deleteDiscovery(discoveryId);
         return ResponseEntity.noContent().build();

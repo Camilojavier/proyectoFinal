@@ -5,4 +5,5 @@ public interface ProviderDetailsAnnotations extends Annotations{
     String PROVIDER_DETAILS_SEQUENCE = "provider_details_seq";
     String PROVIDER_DETAILS_ID = "provider_details_id";
     String RESPONSE_TYPE = "response_type";
+    String EXTRA_SCOPES = "extra_scopes";
 }

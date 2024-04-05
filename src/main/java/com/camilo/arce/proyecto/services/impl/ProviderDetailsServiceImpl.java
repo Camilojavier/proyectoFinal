@@ -47,8 +47,8 @@ public class ProviderDetailsServiceImpl implements ProviderDetailsService {
         ProviderDetails existingProviderDetails = providerDetailsRepository.findById(providerDetailsId)
                 .orElseThrow(() -> new RuntimeException("Detalles del proveedor no encontrados con ID: " + providerDetailsId));
 
-        if (providerDetailsDTO.getScope() != null && !providerDetailsDTO.getScope().isEmpty()) {
-            existingProviderDetails.setScope(providerDetailsDTO.getScope());
+        if (providerDetailsDTO.getExtraScopes() != null && !providerDetailsDTO.getExtraScopes().isEmpty()) {
+            existingProviderDetails.setExtraScopes(providerDetailsDTO.getExtraScopes());
         }
         if (providerDetailsDTO.getResponseType() != null && !providerDetailsDTO.getResponseType().isEmpty()) {
             existingProviderDetails.setResponseType(providerDetailsDTO.getResponseType());

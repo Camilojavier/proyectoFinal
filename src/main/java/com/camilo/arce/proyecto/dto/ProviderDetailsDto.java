@@ -10,7 +10,7 @@ public class ProviderDetailsDto implements ProviderDetailsMessages {
 
     private Long providerDetailsId;
 
-    private String scope;
+    private String extraScopes;
 
     private String responseType;
 

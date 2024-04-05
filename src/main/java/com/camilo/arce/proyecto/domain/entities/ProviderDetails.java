@@ -16,7 +16,8 @@ public class ProviderDetails implements ProviderDetailsAnnotations {
     @Column(name = PROVIDER_DETAILS_ID)
     private Long providerDetailsId;
 
-    private String scope;
+    @Column(name=EXTRA_SCOPES)
+    private String extraScopes;
 
     @Column(name = RESPONSE_TYPE)
     private String responseType;

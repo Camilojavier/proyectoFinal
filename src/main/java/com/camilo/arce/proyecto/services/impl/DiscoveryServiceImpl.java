@@ -69,4 +69,9 @@ public class DiscoveryServiceImpl implements DiscoveryService {
     public void deleteDiscovery(Long discoveryId) {
         discoveryRepository.deleteById(discoveryId);
     }
+
+    @Override
+    public Optional<DiscoveryDto> getDiscoveryByProviderId(Long providerId) {
+        return discoveryRepository.findByProviders_ProviderId(providerId).map(discoveryMapper::toDto);
+    }
 }

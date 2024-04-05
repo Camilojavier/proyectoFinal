@@ -2,7 +2,6 @@ package com.camilo.arce.proyecto.web.rest;
 
 import com.camilo.arce.proyecto.dto.RolesDto;
 import com.camilo.arce.proyecto.services.RolesService;
-import com.camilo.arce.proyecto.web.api.Api;
 import com.camilo.arce.proyecto.web.api.RolesApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,11 +14,11 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(RolesApi.ROLES_ROUTE)
-public class RolesController {
+public class RolesController implements RolesApi{
 
     private final RolesService rolesService;
 
-    @GetMapping(Api.ROLE_ID)
+    @GetMapping(ROLE_ID)
     public ResponseEntity<RolesDto> getRoleById(@PathVariable Long roleId) {
         Optional<RolesDto> roleDTO = rolesService.getRoleById(roleId);
         return roleDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -38,13 +37,13 @@ public class RolesController {
         return new ResponseEntity<>(createdRoleDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping(Api.ROLE_ID)
+    @PutMapping(ROLE_ID)
     public ResponseEntity<RolesDto> updateRole(@PathVariable Long roleId, @RequestBody RolesDto rolesDTO) {
         RolesDto updatedRoleDTO = rolesService.updateRole(roleId, rolesDTO);
         return ResponseEntity.ok(updatedRoleDTO);
     }
 
-    @DeleteMapping(Api.ROLE_ID)
+    @DeleteMapping(ROLE_ID)
     public ResponseEntity<Void> deleteRole(@PathVariable Long roleId) {
         rolesService.deleteRole(roleId);
         return ResponseEntity.noContent().build();

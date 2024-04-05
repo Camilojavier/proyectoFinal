@@ -14,11 +14,11 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(ProviderDetailsApi.PROVIDER_DETAILS_ROUTE)
-public class ProviderDetailsController {
+public class ProviderDetailsController implements  ProviderDetailsApi {
 
     private final ProviderDetailsService providerDetailsService;
 
-    @GetMapping(ProviderDetailsApi.PROVIDER_DETAILS_ID)
+    @GetMapping(PROVIDER_DETAILS_ID)
     public ResponseEntity<ProviderDetailsDto> getProviderDetailsById(@PathVariable Long providerDetailsId) {
         Optional<ProviderDetailsDto> providerDetailsDTO = providerDetailsService.getProviderDetailsById(providerDetailsId);
         return providerDetailsDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -36,13 +36,13 @@ public class ProviderDetailsController {
         return new ResponseEntity<>(createdProviderDetailsDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping(ProviderDetailsApi.PROVIDER_DETAILS_ID)
+    @PutMapping(PROVIDER_DETAILS_ID)
     public ResponseEntity<ProviderDetailsDto> updateProviderDetails(@PathVariable Long providerDetailsId, @RequestBody ProviderDetailsDto providerDetailsDTO) {
         ProviderDetailsDto updatedProviderDetailsDTO = providerDetailsService.updateProviderDetails(providerDetailsId, providerDetailsDTO);
         return ResponseEntity.ok(updatedProviderDetailsDTO);
     }
 
-    @DeleteMapping(ProviderDetailsApi.PROVIDER_DETAILS_ID)
+    @DeleteMapping(PROVIDER_DETAILS_ID)
     public ResponseEntity<Void> deleteProviderDetails(@PathVariable Long providerDetailsId) {
         providerDetailsService.deleteProviderDetails(providerDetailsId);
         return ResponseEntity.noContent().build();

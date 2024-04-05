@@ -14,11 +14,11 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(OpenIDUsersApi.OPENID_USERS_ROUTE)
-public class OpenIDUsersController {
+public class OpenIDUsersController implements OpenIDUsersApi {
 
     private final OpenIDUsersService openIDUsersService;
 
-    @GetMapping(OpenIDUsersApi.OPENID_USER_ID)
+    @GetMapping(OPENID_USER_ID)
     public ResponseEntity<OpenIDUsersDto> getOpenIDUserById(@PathVariable Long openidUsersId) {
         Optional<OpenIDUsersDto> openIDUsersDTO = openIDUsersService.getOpenIDUserById(openidUsersId);
         return openIDUsersDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -36,13 +36,13 @@ public class OpenIDUsersController {
         return new ResponseEntity<>(createdOpenIDUserDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping(OpenIDUsersApi.OPENID_USER_ID)
+    @PutMapping(OPENID_USER_ID)
     public ResponseEntity<OpenIDUsersDto> updateOpenIDUser(@PathVariable Long openidUsersId, @RequestBody OpenIDUsersDto openIDUsersDTO) {
         OpenIDUsersDto updatedOpenIDUserDTO = openIDUsersService.updateOpenIDUser(openidUsersId, openIDUsersDTO);
         return ResponseEntity.ok(updatedOpenIDUserDTO);
     }
 
-    @DeleteMapping(OpenIDUsersApi.OPENID_USER_ID)
+    @DeleteMapping(OPENID_USER_ID)
     public ResponseEntity<Void> deleteOpenIDUser(@PathVariable Long openidUsersId) {
         openIDUsersService.deleteOpenIDUser(openidUsersId);
         return ResponseEntity.noContent().build();

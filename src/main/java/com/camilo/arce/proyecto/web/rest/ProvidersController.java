@@ -14,11 +14,11 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(ProvidersApi.PROVIDERS_ROUTE)
-public class ProvidersController {
+public class ProvidersController implements  ProvidersApi{
 
     private final ProvidersService providersService;
 
-    @GetMapping(ProvidersApi.PROVIDERS_ID)
+    @GetMapping(PROVIDERS_ID)
     public ResponseEntity<ProvidersDto> getProviderById(@PathVariable Long providersId) {
         Optional<ProvidersDto> providerDTO = providersService.getProviderById(providersId);
         return providerDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -36,13 +36,13 @@ public class ProvidersController {
         return new ResponseEntity<>(createdProviderDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping(ProvidersApi.PROVIDERS_ID)
+    @PutMapping(PROVIDERS_ID)
     public ResponseEntity<ProvidersDto> updateProvider(@PathVariable Long providersId, @RequestBody ProvidersDto providersDTO) {
         ProvidersDto updatedProviderDTO = providersService.updateProvider(providersId, providersDTO);
         return ResponseEntity.ok(updatedProviderDTO);
     }
 
-    @DeleteMapping(ProvidersApi.PROVIDERS_ID)
+    @DeleteMapping(PROVIDERS_ID)
     public ResponseEntity<Void> deleteProvider(@PathVariable Long providersId) {
         providersService.deleteProvider(providersId);
         return ResponseEntity.noContent().build();

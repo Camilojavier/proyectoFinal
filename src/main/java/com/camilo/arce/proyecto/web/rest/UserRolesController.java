@@ -14,23 +14,23 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(UserRolesApi.USER_ROLES_ROUTE)
-public class UserRolesController {
+public class UserRolesController implements  UserRolesApi {
 
     private final UserRolesService userRolesService;
 
-    @GetMapping(UserRolesApi.USER_ROLES_ID)
+    @GetMapping(USER_ROLES_ID)
     public ResponseEntity<UserRolesDto> getUserRoleById(@PathVariable Long userRolesId) {
         Optional<UserRolesDto> userRoleDTO = userRolesService.getUserRoleById(userRolesId);
         return userRoleDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping(UserRolesApi.USERS_BY_ROLE_ID)
+    @GetMapping(USERS_BY_ROLE_ID)
     public ResponseEntity<List<UserRolesDto>> getUsersByRoleId(@PathVariable Long roleId) {
         List<UserRolesDto> usersByRoleId = userRolesService.getUsersByRoleId(roleId);
         return ResponseEntity.ok(usersByRoleId);
     }
 
-    @GetMapping(UserRolesApi.ROLES_BY_USER_ID)
+    @GetMapping(ROLES_BY_USER_ID)
     public ResponseEntity<List<UserRolesDto>> getRolesByUserId(@PathVariable Long userId) {
         List<UserRolesDto> rolesByUserId = userRolesService.getRolesByUserId(userId);
         return ResponseEntity.ok(rolesByUserId);
@@ -48,18 +48,18 @@ public class UserRolesController {
         return new ResponseEntity<>(createdUserRoleDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping(UserRolesApi.USER_ROLES_ID)
+    @PutMapping(USER_ROLES_ID)
     public ResponseEntity<UserRolesDto> updateUserRole(@PathVariable Long userRolesId, @RequestBody UserRolesDto userRolesDTO) {
         UserRolesDto updatedUserRoleDTO = userRolesService.updateUserRole(userRolesId, userRolesDTO);
         return ResponseEntity.ok(updatedUserRoleDTO);
     }
 
-    @DeleteMapping(UserRolesApi.USER_ROLES_ID)
+    @DeleteMapping(USER_ROLES_ID)
     public ResponseEntity<Void> deleteUserRole(@PathVariable Long userRolesId) {
         userRolesService.deleteUserRole(userRolesId);
         return ResponseEntity.noContent().build();
     }
-    @RequestMapping(value = UserRolesApi.USER_ROLES_ID, method = RequestMethod.PATCH)
+    @RequestMapping(value = USER_ROLES_ID, method = RequestMethod.PATCH)
     public ResponseEntity<Void> deactivateUserRole(@PathVariable Long userRolesId) {
         userRolesService.deactivateUserRole(userRolesId);
         return ResponseEntity.noContent().build();
