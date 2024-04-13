@@ -14,17 +14,33 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
+        registry.addMapping("/auth/oidc")
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD")
                 .allowedHeaders("*")
+                .maxAge(3600L);
+        registry.addMapping("/v1/**")
+                .allowedOrigins("http://localhost:5173")
+                .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600L);
+        registry.addMapping("/auth/logout")
+                .allowedOrigins("http://localhost:5173")
+                .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD")
+                .allowCredentials(true)
+                .maxAge(3600L);
+        registry.addMapping("/auth/login")
+                .allowedOrigins("http://localhost:5173")
+                .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD")
+                .allowCredentials(true)
                 .maxAge(3600L);
     }
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TokenInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/auth/oidc");
+                .excludePathPatterns("/auth/**");
     }
     @Bean
     public RestTemplate restTemplate(){
