@@ -1,6 +1,6 @@
 package com.camilo.arce.proyecto.tool;
 
-import com.camilo.arce.proyecto.dto.IdTokenDTO;
+import com.camilo.arce.proyecto.dto.IdTokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -10,7 +10,9 @@ public class CookieUtils {
 
     private static final String SECRET_KEY = "tu_clave_secreta_para_el_cifrado";
 
-    public static String encryptIdTokenDTO(IdTokenDTO idTokenDTO) throws Exception {
+
+
+    public static String encryptIdTokenDTO(IdTokenDto idTokenDTO) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(idTokenDTO);
 
@@ -22,7 +24,7 @@ public class CookieUtils {
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
-    public static IdTokenDTO decryptIdTokenDTO(String encryptedToken) throws Exception {
+    public static IdTokenDto decryptIdTokenDTO(String encryptedToken) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
         SecretKeySpec secretKey = new SecretKeySpec(SECRET_KEY.getBytes(), "AES");
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
@@ -30,7 +32,7 @@ public class CookieUtils {
         String decryptedJson = new String(decryptedBytes);
 
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(decryptedJson, IdTokenDTO.class);
+        return objectMapper.readValue(decryptedJson, IdTokenDto.class);
     }
 }
 

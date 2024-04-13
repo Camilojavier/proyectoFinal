@@ -8,6 +8,7 @@ import org.springframework.util.MultiValueMap;
 @Data
 @AllArgsConstructor
 public class OpenIDRequest implements LoginRequest{
+    private String name;
     private String issuer;
     private String tokenEndpoint;
     private String code;

@@ -69,6 +69,16 @@ public class OpenIDUsersServiceImpl implements OpenIDUsersService {
     public void deleteOpenIDUser(Long openIdUsersId) {
         openIDUsersRepository.deleteById(openIdUsersId);
     }
+
+    @Override
+    public boolean isRegisteredDN(String distinguishedName) {
+        return openIDUsersRepository.findByOpenIdDN(distinguishedName).isPresent();
+    }
+
+    @Override
+    public Optional<OpenIDUsersDto> getOpenIDUserByDN(String distinguishedName) {
+        return openIDUsersRepository.findByOpenIdDN(distinguishedName).map(openIDUsersMapper::toDto);
+    }
 }
 
 

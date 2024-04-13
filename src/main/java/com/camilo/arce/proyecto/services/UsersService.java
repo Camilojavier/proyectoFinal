@@ -9,6 +9,9 @@ public interface UsersService {
 
     Optional<UsersDto> getUserById(Long userId);
 
+    Optional<UsersDto> getUserByUsername(String username);
+
+
     List<UsersDto> getAllUsers();
 
     UsersDto createUser(UsersDto usersDTO);

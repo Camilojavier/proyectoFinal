@@ -16,4 +16,8 @@ public interface OpenIDUsersService {
     OpenIDUsersDto updateOpenIDUser(Long openIdUsersId, OpenIDUsersDto openIDUsersDTO);
 
     void deleteOpenIDUser(Long openIdUsersId);
+
+    boolean isRegisteredDN(String distinguishedName);
+    Optional<OpenIDUsersDto> getOpenIDUserByDN(String distinguishedName);
+
 }

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class IdTokenDTO implements IdTokenMessages {
+public class IdTokenDto implements IdTokenMessages {
 
     @NotBlank(message = cNNotBlankMessage)
     private String CN;
@@ -14,17 +14,22 @@ public class IdTokenDTO implements IdTokenMessages {
     private String E;
     private boolean withOpenId;
     private boolean validToken;
+    private String asDN;
 
 
     public boolean isValidToken(){
         if (withOpenId && CN != null && DC != null && E != null) {
             validToken = true;
             return true;
+        } else if (!withOpenId && CN != null && DC == null && E != null) {
+            validToken = true;
+            return true;
         }
-        else {
-            validToken = false;
-            return !withOpenId && CN != null && DC == null && E != null;
-        }
+        validToken = false;
+        return false;
+    }
+    public String getAsDN(){
+        return "CN="+ CN + ",DC=" + DC + ",E=" + E;
     }
 
 }

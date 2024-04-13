@@ -33,6 +33,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Optional<UsersDto> getUserByUsername(String username) {
+        return usersRepository.findByUsername(username).map(usersMapper::toDto);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<UsersDto> getAllUsers() {
         return usersRepository.findAll()

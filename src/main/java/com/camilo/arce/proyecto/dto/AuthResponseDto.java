@@ -5,18 +5,18 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class AuthResponseDTO implements AuthResponseMessages {
+public class AuthResponseDto implements AuthResponseMessages {
     @NotNull(message = tokenNotNullMessage)
-    private IdTokenDTO token;
+    private IdTokenDto token;
     private String error;
     private int httpStatusCode;
-    public static AuthResponseDTO success(IdTokenDTO token) {
-        AuthResponseDTO response = new AuthResponseDTO();
+    public static AuthResponseDto success(IdTokenDto token) {
+        AuthResponseDto response = new AuthResponseDto();
         response.setToken(token);
         return response;
     }
-    public static AuthResponseDTO error(String error, int httpStatusCode) {
-        AuthResponseDTO response = new AuthResponseDTO();
+    public static AuthResponseDto error(String error, int httpStatusCode) {
+        AuthResponseDto response = new AuthResponseDto();
         response.setError(error);
         response.setHttpStatusCode(httpStatusCode);
         return response;

@@ -1,7 +1,7 @@
 package com.camilo.arce.proyecto.tool;
 
 import com.camilo.arce.proyecto.domain.entities.OpenIDRequest;
-import com.camilo.arce.proyecto.dto.IdTokenDTO;
+import com.camilo.arce.proyecto.dto.IdTokenDto;
 import com.camilo.arce.proyecto.dto.JWKSet;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -23,7 +23,7 @@ import java.util.Objects;
 public class JwtUtils {
 
 
-    public static IdTokenDTO parseAndVerifyJwt(String rawToken, JWKSet jwkSet, OpenIDRequest openIDRequest) throws JsonProcessingException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+    public static IdTokenDto parseAndVerifyJwt(String rawToken, JWKSet jwkSet, OpenIDRequest openIDRequest) throws JsonProcessingException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         String[] parts = rawToken.split("\\.");
@@ -43,10 +43,10 @@ public class JwtUtils {
         if(!isValidPayload || !isValidSignature) {
             return null;
         }
-        IdTokenDTO idTokenDTO = new IdTokenDTO();
+        IdTokenDto idTokenDTO = new IdTokenDto();
         idTokenDTO.setCN(jsonPayload.get("sub").asText());
+        idTokenDTO.setDC(openIDRequest.getName());
         idTokenDTO.setE(jsonPayload.get("email").asText());
-        idTokenDTO.setDC(openIDRequest.getIssuer());
         idTokenDTO.setWithOpenId(true);
 
         return idTokenDTO;

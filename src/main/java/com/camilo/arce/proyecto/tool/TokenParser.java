@@ -1,14 +1,14 @@
 package com.camilo.arce.proyecto.tool;
 
-import com.camilo.arce.proyecto.dto.OpenIDResponseDTO;
+import com.camilo.arce.proyecto.dto.OpenIDResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TokenParser {
 
-    public static OpenIDResponseDTO parseResponse(String token) {
+    public static OpenIDResponseDto parseResponse(String token) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.readValue(token, OpenIDResponseDTO.class);
+            return objectMapper.readValue(token, OpenIDResponseDto.class);
         } catch (Exception e) {
             return null;
         }
