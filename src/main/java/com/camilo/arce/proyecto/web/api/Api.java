@@ -4,5 +4,6 @@ public interface Api {
     String API_VERSION = "/v1";
     String USER_ID = "/{userId}";
     String ROLE_ID = "/{roleId}";
+    String AUTH_TOKEN = "auth_token";
 
 }
