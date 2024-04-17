@@ -2,6 +2,7 @@ package com.camilo.arce.proyecto.web.rest;
 
 import com.camilo.arce.proyecto.dto.IdTokenDto;
 import com.camilo.arce.proyecto.dto.OpenIDUsersDto;
+import com.camilo.arce.proyecto.dto.PasswordChangeDto;
 import com.camilo.arce.proyecto.dto.UsersDto;
 import com.camilo.arce.proyecto.services.OpenIDUsersService;
 import com.camilo.arce.proyecto.services.UsersService;
@@ -46,6 +47,12 @@ public class UsersController implements  UsersApi{
     @PutMapping(USER_ID)
     public ResponseEntity<UsersDto> updateUser(@PathVariable Long userId, @RequestBody UsersDto usersDTO) {
         UsersDto updatedUserDTO = usersService.updateUser(userId, usersDTO);
+        return ResponseEntity.ok(updatedUserDTO);
+    }
+
+    @RequestMapping(value = USER_ID, method = RequestMethod.PATCH)
+    public ResponseEntity<UsersDto> updatePassword(@PathVariable Long userId, @RequestBody PasswordChangeDto passwordChangeDto) {
+        UsersDto updatedUserDTO = usersService.updatePassword(userId, passwordChangeDto);
         return ResponseEntity.ok(updatedUserDTO);
     }
 

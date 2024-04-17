@@ -1,5 +1,6 @@
 package com.camilo.arce.proyecto.services;
 
+import com.camilo.arce.proyecto.dto.PasswordChangeDto;
 import com.camilo.arce.proyecto.dto.UsersDto;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface UsersService {
     UsersDto createUser(UsersDto usersDTO);
 
     UsersDto updateUser(Long userId, UsersDto usersDTO);
+
+    UsersDto updatePassword(Long userId, PasswordChangeDto newPassword);
 
     void deleteUser(Long userId);
 }

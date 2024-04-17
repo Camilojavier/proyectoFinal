@@ -1,6 +1,7 @@
 package com.camilo.arce.proyecto.services.impl;
 
 import com.camilo.arce.proyecto.domain.entities.Users;
+import com.camilo.arce.proyecto.dto.PasswordChangeDto;
 import com.camilo.arce.proyecto.dto.UsersDto;
 import com.camilo.arce.proyecto.repositories.UsersRepository;
 import com.camilo.arce.proyecto.services.UsersService;
@@ -75,15 +76,23 @@ public class UsersServiceImpl implements UsersService {
             existingUser.setEmail(usersDto.getEmail());
         }
 
-        if (usersDto.getHashedPassword() != null && !usersDto.getHashedPassword().isEmpty()) {
-            String encryptedPassword = passwordEncoder.encode(usersDto.getHashedPassword());
-            existingUser.setHashedPassword(encryptedPassword);
-        }
-
         if (usersDto.getPhone() != null && !usersDto.getPhone().isEmpty()) {
             existingUser.setPhone(usersDto.getPhone());
         }
 
+        Users updatedUser = usersRepository.save(existingUser);
+        return usersMapper.toDto(updatedUser);
+    }
+
+    @Override
+    public UsersDto updatePassword(Long userId, PasswordChangeDto passwordChangeDto) {
+        Users existingUser = usersRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Usuario no encontrado con ID: " + userId));
+        final String oldPassword = passwordChangeDto.getOldPassword();
+        final String newPassword = passwordChangeDto.getNewPassword();
+        if (passwordEncoder.matches(oldPassword, existingUser.getHashedPassword())) {
+            existingUser.setHashedPassword(passwordEncoder.encode(newPassword));
+        }
         Users updatedUser = usersRepository.save(existingUser);
         return usersMapper.toDto(updatedUser);
     }
