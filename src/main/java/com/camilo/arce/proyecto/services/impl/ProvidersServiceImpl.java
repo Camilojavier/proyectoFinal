@@ -57,15 +57,9 @@ public class ProvidersServiceImpl implements ProvidersService {
         if (providersDTO.getClientId() != null && !providersDTO.getClientId().isEmpty()) {
             existingProvider.setClientId(providersDTO.getClientId());
         }
-        if (providersDTO.getClientSecret() != null && !providersDTO.getClientSecret().isEmpty()) {
             existingProvider.setClientSecret(providersDTO.getClientSecret());
-        }
-        if (providersDTO.getResponseMode() != null && !providersDTO.getResponseMode().isEmpty()) {
             existingProvider.setResponseMode(providersDTO.getResponseMode());
-        }
-        if (providersDTO.getTenantId() != null && !providersDTO.getTenantId().isEmpty()) {
             existingProvider.setTenantId(providersDTO.getTenantId());
-        }
 
         Providers updatedProvider = providersRepository.save(existingProvider);
         return providersMapper.toDto(updatedProvider);
