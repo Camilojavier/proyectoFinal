@@ -70,6 +70,12 @@ public class ProviderDetailsServiceImpl implements ProviderDetailsService {
     public void deleteProviderDetails(Long providerDetailsId) {
         providerDetailsRepository.deleteById(providerDetailsId);
     }
+
+    @Override
+    public Optional<ProviderDetailsDto> getProviderDetailsByProviderId(Long providerId) {
+        return providerDetailsRepository.findByProviders_ProviderId(providerId).map(providerDetailsMapper::toDto);
+
+    }
 }
 
 

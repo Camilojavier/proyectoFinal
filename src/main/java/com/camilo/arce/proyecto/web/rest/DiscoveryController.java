@@ -25,10 +25,16 @@ public class DiscoveryController implements  DiscoveryApi{
     }
 
     @GetMapping
-    public ResponseEntity<List<DiscoveryDto>> getAllDiscoveries() {
-        List<DiscoveryDto> discoveryDtoList = discoveryService.getAllDiscoveries();
-        return ResponseEntity.ok(discoveryDtoList);
+    public ResponseEntity<?> getDiscovery(@RequestParam(required = false) Long providersId) {
+        if (providersId != null) {
+            Optional<DiscoveryDto> discoveryDTO = discoveryService.getDiscoveryByProviderId(providersId);
+            return discoveryDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        } else {
+            List<DiscoveryDto> discoveryDtoList = discoveryService.getAllDiscoveries();
+            return ResponseEntity.ok(discoveryDtoList);
+        }
     }
+
 
     @PostMapping
     public ResponseEntity<DiscoveryDto> createDiscovery(@RequestBody DiscoveryDto discoveryDTO) {

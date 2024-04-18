@@ -1,5 +1,6 @@
 package com.camilo.arce.proyecto.services;
 
+import com.camilo.arce.proyecto.dto.DiscoveryDto;
 import com.camilo.arce.proyecto.dto.ProviderDetailsDto;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface ProviderDetailsService {
     ProviderDetailsDto updateProviderDetails(Long providerDetailsId, ProviderDetailsDto providerDetailsDTO);
 
     void deleteProviderDetails(Long providerDetailsId);
+    Optional<ProviderDetailsDto> getProviderDetailsByProviderId(Long providerId);
+
 }
