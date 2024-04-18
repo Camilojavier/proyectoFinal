@@ -82,12 +82,21 @@ public class AuthController implements AuthApi {
             return null;
         }
         String url = discovery.getAuthEndpoint() + "?" +
-                "scope=openid email" + provider.getExtraScopes() + "&" +
-                "response_type=" + provider.getResponseType() + "&" +
-                "client_id=" + providers.getClientId() + "&" +
                 "redirect_uri=" + REDIRECT_URI + "&" +
+                "client_id=" + providers.getClientId() + "&" +
                 "state=" + id + "state" + "&" +
                 "nonce=" + "nonce";
+
+        if (provider.getExtraScopes() != null) {
+            url += "&scope=openid email" + provider.getExtraScopes();
+        } else {
+            url += "&scope=openid email";
+        }
+        if (provider.getResponseType() != null) {
+            url += "&response_type=" + provider.getResponseType();
+        } else {
+            url += "&response_type=code";
+        }
         if (providers.getResponseMode() != null) {
             url += "&response_mode=" + providers.getResponseMode();
         }
