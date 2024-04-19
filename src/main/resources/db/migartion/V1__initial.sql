@@ -87,7 +87,7 @@ ALTER SEQUENCE public.openid_users_seq OWNER TO postgres;
 
 CREATE TABLE public.provider_details (
     provider_id bigint NOT NULL,
-    scope text,
+    extra_scopes text,
     response_type text,
     display text,
     prompt text,
@@ -207,7 +207,7 @@ CREATE TABLE public.users (
     last_name character varying(100) NOT NULL,
     email character varying(256) NOT NULL,
     phone character varying(50),
-    password character varying(150) NOT NULL
+    hashed_password character varying(150) NOT NULL
 );
 
 
@@ -247,7 +247,7 @@ COPY public.openid_users (provider_id, user_id, subject_id, mail, issuer, openid
 -- Data for Name: provider_details; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.provider_details (provider_id, scope, response_type, display, prompt, provider_details_id) FROM stdin;
+COPY public.provider_details (provider_id, extra_scope, response_type, display, prompt, provider_details_id) FROM stdin;
 \.
 
 
@@ -279,7 +279,7 @@ COPY public.user_roles (role_id, user_id, active, user_roles_id) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.users (user_id, username, first_name, last_name, email, phone, password) FROM stdin;
+COPY public.users (user_id, username, first_name, last_name, email, phone, hashed_password) FROM stdin;
 \.
 
 
