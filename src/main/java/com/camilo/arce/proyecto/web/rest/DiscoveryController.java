@@ -1,8 +1,10 @@
 package com.camilo.arce.proyecto.web.rest;
 
 import com.camilo.arce.proyecto.dto.DiscoveryDto;
+import com.camilo.arce.proyecto.dto.ProvidersDto;
 import com.camilo.arce.proyecto.services.DiscoveryService;
 import com.camilo.arce.proyecto.web.api.DiscoveryApi;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,5 +54,13 @@ public class DiscoveryController implements  DiscoveryApi{
     public ResponseEntity<Void> deleteDiscovery(@PathVariable Long discoveryId) {
         discoveryService.deleteDiscovery(discoveryId);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping(DISCOVER)
+    public ResponseEntity<DiscoveryDto> discover(@RequestBody ProvidersDto providersDto) throws JsonProcessingException {
+        DiscoveryDto discoveryDto = discoveryService.discover(providersDto.getProviderId(),providersDto.getDiscoveryUrl());
+        if (discoveryDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(discoveryDto);
     }
 }

@@ -1,6 +1,7 @@
 package com.camilo.arce.proyecto.services;
 
 import com.camilo.arce.proyecto.dto.DiscoveryDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +19,5 @@ public interface DiscoveryService {
     void deleteDiscovery(Long discoveryId);
 
     Optional<DiscoveryDto> getDiscoveryByProviderId(Long providerId);
+    DiscoveryDto discover(Long providerId, String discoveryUrl) throws JsonProcessingException;
 }
