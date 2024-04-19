@@ -18,9 +18,9 @@ public class ProvidersController implements  ProvidersApi{
 
     private final ProvidersService providersService;
 
-    @GetMapping(PROVIDERS_ID)
-    public ResponseEntity<ProvidersDto> getProviderById(@PathVariable Long providersId) {
-        Optional<ProvidersDto> providerDTO = providersService.getProviderById(providersId);
+    @GetMapping(PROVIDER_ID)
+    public ResponseEntity<ProvidersDto> getProviderById(@PathVariable Long providerId) {
+        Optional<ProvidersDto> providerDTO = providersService.getProviderById(providerId);
         return providerDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -36,15 +36,15 @@ public class ProvidersController implements  ProvidersApi{
         return new ResponseEntity<>(createdProviderDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping(PROVIDERS_ID)
-    public ResponseEntity<ProvidersDto> updateProvider(@PathVariable Long providersId, @RequestBody ProvidersDto providersDTO) {
-        ProvidersDto updatedProviderDTO = providersService.updateProvider(providersId, providersDTO);
+    @PutMapping(PROVIDER_ID)
+    public ResponseEntity<ProvidersDto> updateProvider(@PathVariable Long providerId, @RequestBody ProvidersDto providersDTO) {
+        ProvidersDto updatedProviderDTO = providersService.updateProvider(providerId, providersDTO);
         return ResponseEntity.ok(updatedProviderDTO);
     }
 
-    @DeleteMapping(PROVIDERS_ID)
-    public ResponseEntity<Void> deleteProvider(@PathVariable Long providersId) {
-        providersService.deleteProvider(providersId);
+    @DeleteMapping(PROVIDER_ID)
+    public ResponseEntity<Void> deleteProvider(@PathVariable Long providerId) {
+        providersService.deleteProvider(providerId);
         return ResponseEntity.noContent().build();
     }
 }
