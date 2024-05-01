@@ -8,7 +8,7 @@ import java.util.Base64;
 
 public class CookieUtils {
 
-    private static final String SECRET_KEY = "tu_clave_secreta_para_el_cifrado";
+    private static final String SECRET_KEY = SecureValueGenerator.generateSecureValue();
 
 
 
