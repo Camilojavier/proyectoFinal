@@ -23,15 +23,16 @@ public class ProviderDetailsController implements  ProviderDetailsApi {
         Optional<ProviderDetailsDto> providerDetailsDTO = providerDetailsService.getProviderDetailsById(providerDetailsId);
         return providerDetailsDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping(BY_PROVIDER_ID)
+    public ResponseEntity<?> getProviderDetails(@PathVariable Long providerId) {
+        Optional<ProviderDetailsDto> providerDetailsDto = providerDetailsService.getProviderDetailsByProviderId(providerId);
+        return providerDetailsDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @GetMapping
-    public ResponseEntity<?> getProviderDetails(@RequestParam(required = false) Long providersId) {
-        if (providersId != null) {
-            Optional<ProviderDetailsDto> providerDetailsDto = providerDetailsService.getProviderDetailsByProviderId(providersId);
-            return providerDetailsDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-        } else {
-            List<ProviderDetailsDto> providerDetailsDtoList = providerDetailsService.getAllProviderDetails();
-            return ResponseEntity.ok(providerDetailsDtoList);
-        }
+    public ResponseEntity<List<ProviderDetailsDto>> getAllProviderDetails() {
+        List<ProviderDetailsDto> providerDetailsDtoList = providerDetailsService.getAllProviderDetails();
+        return ResponseEntity.ok(providerDetailsDtoList);
     }
 
 

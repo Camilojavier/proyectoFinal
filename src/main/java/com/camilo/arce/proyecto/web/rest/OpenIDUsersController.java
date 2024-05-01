@@ -23,6 +23,17 @@ public class OpenIDUsersController implements OpenIDUsersApi {
         Optional<OpenIDUsersDto> openIDUsersDTO = openIDUsersService.getOpenIDUserById(openidUsersId);
         return openIDUsersDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping(BY_USER_ID)
+    public ResponseEntity<?> getOpenIDUserByUserId(@PathVariable Long userId) {
+            Optional<OpenIDUsersDto> openIDUsersDto = openIDUsersService.getOpenIDUserByUserId(userId);
+            return openIDUsersDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping(BY_PROVIDER_ID)
+    public ResponseEntity<OpenIDUsersDto> getOpenIDUserByProviderId(@PathVariable Long providerId) {
+        Optional<OpenIDUsersDto> openIDUsersDto = openIDUsersService.getOpenIDUserByProviderId(providerId);
+        return openIDUsersDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     @GetMapping
     public ResponseEntity<List<OpenIDUsersDto>> getAllOpenIDUsers() {

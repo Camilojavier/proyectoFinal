@@ -79,6 +79,16 @@ public class OpenIDUsersServiceImpl implements OpenIDUsersService {
     public Optional<OpenIDUsersDto> getOpenIDUserByDN(String distinguishedName) {
         return openIDUsersRepository.findByOpenIdDN(distinguishedName).map(openIDUsersMapper::toDto);
     }
+
+    @Override
+    public Optional<OpenIDUsersDto> getOpenIDUserByUserId(Long userId) {
+        return openIDUsersRepository.findByUsers_UserId(userId).map(openIDUsersMapper::toDto);
+    }
+
+    @Override
+    public Optional<OpenIDUsersDto> getOpenIDUserByProviderId(Long providerId) {
+        return openIDUsersRepository.findByProviders_ProviderId(providerId).map(openIDUsersMapper::toDto);
+    }
 }
 
 

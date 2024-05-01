@@ -19,5 +19,7 @@ public interface OpenIDUsersService {
 
     boolean isRegisteredDN(String distinguishedName);
     Optional<OpenIDUsersDto> getOpenIDUserByDN(String distinguishedName);
+    Optional<OpenIDUsersDto> getOpenIDUserByUserId(Long userId);
+    Optional<OpenIDUsersDto> getOpenIDUserByProviderId(Long roleId);
 
 }
