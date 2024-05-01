@@ -8,9 +8,10 @@ import com.camilo.arce.proyecto.services.AuthService;
 import com.camilo.arce.proyecto.services.DiscoveryService;
 import com.camilo.arce.proyecto.services.ProviderDetailsService;
 import com.camilo.arce.proyecto.services.ProvidersService;
-import com.camilo.arce.proyecto.tool.CookieUtils;
-import com.camilo.arce.proyecto.tool.DiscoveryComparator;
-import com.camilo.arce.proyecto.tool.ProviderDetailsComparator;
+import com.camilo.arce.proyecto.tools.CookieUtils;
+import com.camilo.arce.proyecto.tools.DiscoveryComparator;
+import com.camilo.arce.proyecto.tools.ProviderDetailsComparator;
+import com.camilo.arce.proyecto.tools.ProviderRequestBuilder;
 import com.camilo.arce.proyecto.web.api.AuthApi;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -67,47 +68,14 @@ public class AuthController implements AuthApi {
         discoveryDtoList.sort(new DiscoveryComparator());
         Map<String, String> providersRequests = new HashMap<>();
         for (int i = 0; i < Math.min(discoveryDtoList.size(), providersDtoList.size()); i++) {
-            providersRequests.put(discoveryDtoList.get(i).getProviders().getName(), getUrl(providersDtoList.get(i), discoveryDtoList.get(i)));
+            final String authEndpoint = discoveryDtoList.get(i).getAuthEndpoint();
+            providersRequests.put(discoveryDtoList.get(i).getProviders().getName(),
+                    ProviderRequestBuilder.getUrl(providersDtoList.get(i), authEndpoint));
         }
         return ResponseEntity.ok(providersRequests);
     }
 
-    private String getUrl(ProviderDetailsDto provider, DiscoveryDto discovery) {
-        Long id = provider.getProviders().getProviderId();
-        Optional<ProvidersDto> providersDto = providersService.getProviderById(id);
-        ProvidersDto providers;
-        if (providersDto.isPresent()) {
-            providers = providersDto.get();
-        } else {
-            return null;
-        }
-        String url = discovery.getAuthEndpoint() + "?" +
-                "redirect_uri=" + REDIRECT_URI + "&" +
-                "client_id=" + providers.getClientId() + "&" +
-                "state=" + id + "state" + "&" +
-                "nonce=" + "nonce";
 
-        if (provider.getExtraScopes() != null) {
-            url += "&scope=openid email" + provider.getExtraScopes();
-        } else {
-            url += "&scope=openid email";
-        }
-        if (provider.getResponseType() != null) {
-            url += "&response_type=" + provider.getResponseType();
-        } else {
-            url += "&response_type=code";
-        }
-        if (providers.getResponseMode() != null) {
-            url += "&response_mode=" + providers.getResponseMode();
-        }
-        if (provider.getDisplay() != null) {
-            url += "&display=" + provider.getDisplay();
-        }
-        if (provider.getPrompt() != null) {
-            url += "&prompt=" + provider.getPrompt();
-        }
-        return url;
-    }
     @GetMapping(LOGOUT_ROUTE)
     public void logout(HttpServletResponse response) {
         removeAuthToken(response);

@@ -1,7 +1,7 @@
 package com.camilo.arce.proyecto.config;
 
 import com.camilo.arce.proyecto.dto.IdTokenDto;
-import com.camilo.arce.proyecto.tool.CookieUtils;
+import com.camilo.arce.proyecto.tools.CookieUtils;
 import com.camilo.arce.proyecto.web.api.AuthApi;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

@@ -6,7 +6,7 @@ import com.camilo.arce.proyecto.dto.PasswordChangeDto;
 import com.camilo.arce.proyecto.dto.UsersDto;
 import com.camilo.arce.proyecto.services.OpenIDUsersService;
 import com.camilo.arce.proyecto.services.UsersService;
-import com.camilo.arce.proyecto.tool.CookieUtils;
+import com.camilo.arce.proyecto.tools.CookieUtils;
 import com.camilo.arce.proyecto.web.api.UsersApi;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

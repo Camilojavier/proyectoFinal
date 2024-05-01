@@ -1,4 +1,4 @@
-package com.camilo.arce.proyecto.tool;
+package com.camilo.arce.proyecto.tools;
 
 import com.camilo.arce.proyecto.dto.DiscoveryDto;
 
