@@ -2,10 +2,10 @@ package com.camilo.arce.proyecto.services.impl;
 
 import com.camilo.arce.proyecto.domain.entities.Discovery;
 import com.camilo.arce.proyecto.dto.DiscoveryDto;
+import com.camilo.arce.proyecto.dto.ProvidersDto;
 import com.camilo.arce.proyecto.repositories.DiscoveryRepository;
 import com.camilo.arce.proyecto.services.DiscoveryService;
 import com.camilo.arce.proyecto.services.mapper.DiscoveryMapper;
-import com.camilo.arce.proyecto.services.mapper.ProvidersMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -95,7 +95,8 @@ public class DiscoveryServiceImpl implements DiscoveryService {
             discoveryDto.setAuthEndpoint(discovery.get("authorization_endpoint").asText());
             discoveryDto.setTokenEndpoint(discovery.get("token_endpoint").asText());
             discoveryDto.setJwksUri(discovery.get("jwks_uri").asText());
-            discoveryDto.setProviders(providersServiceImpl.getProviderById(providerId).get());
+            Optional<ProvidersDto> providersDto = providersServiceImpl.getProviderById(providerId);
+            providersDto.ifPresent(discoveryDto::setProviders);
             return createDiscovery(discoveryDto);
         }
     }
