@@ -24,13 +24,13 @@ public class UserRolesController implements  UserRolesApi {
         return userRoleDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping(USERS_BY_ROLE_ID)
+    @GetMapping(BY_ROLE_ID)
     public ResponseEntity<List<UserRolesDto>> getUsersByRoleId(@PathVariable Long roleId) {
         List<UserRolesDto> usersByRoleId = userRolesService.getUsersByRoleId(roleId);
         return ResponseEntity.ok(usersByRoleId);
     }
 
-    @GetMapping(ROLES_BY_USER_ID)
+    @GetMapping(BY_USER_ID)
     public ResponseEntity<List<UserRolesDto>> getRolesByUserId(@PathVariable Long userId) {
         List<UserRolesDto> rolesByUserId = userRolesService.getRolesByUserId(userId);
         return ResponseEntity.ok(rolesByUserId);
