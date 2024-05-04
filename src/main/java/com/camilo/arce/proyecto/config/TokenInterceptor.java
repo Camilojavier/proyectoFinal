@@ -1,7 +1,7 @@
 package com.camilo.arce.proyecto.config;
 
 import com.camilo.arce.proyecto.dto.IdTokenDto;
-import com.camilo.arce.proyecto.tools.CookieUtils;
+import com.camilo.arce.proyecto.tools.AuthTokenCrypt;
 import com.camilo.arce.proyecto.web.api.AuthApi;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,9 +16,9 @@ public class TokenInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(AuthApi.AUTH_TOKEN)) {
                     String token = cookie.getValue();
-                    IdTokenDto idTokenDTO = CookieUtils.decryptIdTokenDTO(token);
+                    IdTokenDto idTokenDTO = AuthTokenCrypt.decryptIdTokenDTO(token);
                     if (idTokenDTO.isValidToken()) {
-                        Cookie newCookie = new Cookie(AuthApi.AUTH_TOKEN, CookieUtils.encryptIdTokenDTO(idTokenDTO));
+                        Cookie newCookie = new Cookie(AuthApi.AUTH_TOKEN, AuthTokenCrypt.encryptIdTokenDTO(idTokenDTO));
                         newCookie.setPath("/");
                         newCookie.setMaxAge(600);
                         newCookie.setHttpOnly(true);
