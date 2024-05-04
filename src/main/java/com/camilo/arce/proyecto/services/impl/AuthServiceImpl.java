@@ -7,7 +7,7 @@ import com.camilo.arce.proyecto.dto.*;
 import com.camilo.arce.proyecto.services.AuthService;
 import com.camilo.arce.proyecto.services.OpenIDUsersService;
 import com.camilo.arce.proyecto.services.UsersService;
-import com.camilo.arce.proyecto.tools.JwtUtils;
+import com.camilo.arce.proyecto.tools.JwtVerifier;
 import com.camilo.arce.proyecto.tools.TokenParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -73,11 +73,12 @@ public class AuthServiceImpl implements AuthService {
                     requestEntity,
                     String.class);
 
+            System.out.println(response.getBody());
             OpenIDResponseDto responseDTO = TokenParser.parseResponse(response.getBody());
             boolean isRegisteredDN = false;
             IdTokenDto idTokenDTO = null;
             if (responseDTO != null) {
-                idTokenDTO = JwtUtils.parseAndVerifyJwt(responseDTO.getIdToken(), jwkSet, openIDRequest);
+                idTokenDTO = JwtVerifier.parseAndVerifyJwt(responseDTO.getIdToken(), jwkSet, openIDRequest);
 
                 if (idTokenDTO != null) {
                     isRegisteredDN = openIDUsersService.isRegisteredDN(idTokenDTO.getAsDN());
