@@ -3,6 +3,7 @@ package com.camilo.arce.proyecto.web.rest;
 import com.camilo.arce.proyecto.dto.DiscoveryDto;
 import com.camilo.arce.proyecto.dto.ProvidersDto;
 import com.camilo.arce.proyecto.services.DiscoveryService;
+import com.camilo.arce.proyecto.services.ProvidersService;
 import com.camilo.arce.proyecto.web.api.DiscoveryApi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class DiscoveryController implements  DiscoveryApi{
 
     private final DiscoveryService discoveryService;
+    private final ProvidersService providersService;
 
     @GetMapping(DISCOVERY_ID)
     public ResponseEntity<DiscoveryDto> getDiscoveryById(@PathVariable Long discoveryId) {
@@ -56,9 +58,11 @@ public class DiscoveryController implements  DiscoveryApi{
         discoveryService.deleteDiscovery(discoveryId);
         return ResponseEntity.noContent().build();
     }
-    @GetMapping(DISCOVER)
-    public ResponseEntity<DiscoveryDto> discover(@RequestBody ProvidersDto providersDto) throws JsonProcessingException {
-        DiscoveryDto discoveryDto = discoveryService.discover(providersDto.getProviderId(),providersDto.getDiscoveryUrl());
+    @PostMapping(DISCOVER)
+    public ResponseEntity<DiscoveryDto> discover(@RequestBody ProvidersDto partialProvidersDto) throws JsonProcessingException {
+        Optional<ProvidersDto> optionalProvidersDto = providersService.getProviderByName(partialProvidersDto.getName());
+        ProvidersDto providerDto = optionalProvidersDto.orElseThrow(() -> new RuntimeException("Provider not found"));
+        DiscoveryDto discoveryDto = discoveryService.discover(providerDto.getProviderId(),partialProvidersDto.getDiscoveryUrl());
         if (discoveryDto == null) {
             return ResponseEntity.notFound().build();
         }
