@@ -20,7 +20,7 @@ import java.util.Base64;
 import java.util.Objects;
 
 @RequiredArgsConstructor
-public class JwtUtils {
+public class JwtVerifier {
 
 
     public static IdTokenDto parseAndVerifyJwt(String rawToken, JWKSet jwkSet, OpenIDRequest openIDRequest) throws JsonProcessingException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {

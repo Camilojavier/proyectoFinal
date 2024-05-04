@@ -6,7 +6,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
-public class CookieUtils {
+public class AuthTokenCrypt {
 
     private static final String SECRET_KEY = SecureValueGenerator.generateSecureValue();
 
