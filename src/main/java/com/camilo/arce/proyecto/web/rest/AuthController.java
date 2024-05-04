@@ -8,7 +8,7 @@ import com.camilo.arce.proyecto.services.AuthService;
 import com.camilo.arce.proyecto.services.DiscoveryService;
 import com.camilo.arce.proyecto.services.ProviderDetailsService;
 import com.camilo.arce.proyecto.services.ProvidersService;
-import com.camilo.arce.proyecto.tools.CookieUtils;
+import com.camilo.arce.proyecto.tools.AuthTokenCrypt;
 import com.camilo.arce.proyecto.tools.DiscoveryComparator;
 import com.camilo.arce.proyecto.tools.ProviderDetailsComparator;
 import com.camilo.arce.proyecto.tools.ProviderRequestBuilder;
@@ -62,15 +62,15 @@ public class AuthController implements AuthApi {
 
     @GetMapping(OPENID_ROUTE)
     public ResponseEntity<Map<String, String>> getOpenIDProviders() {
-        List<ProviderDetailsDto> providersDtoList = providerDetailsService.getAllProviderDetails();
-        providersDtoList.sort(new ProviderDetailsComparator());
+        List<ProviderDetailsDto> detailsDtoList = providerDetailsService.getAllProviderDetails();
+        detailsDtoList.sort(new ProviderDetailsComparator());
         List<DiscoveryDto> discoveryDtoList = discoveryService.getAllDiscoveries();
         discoveryDtoList.sort(new DiscoveryComparator());
         Map<String, String> providersRequests = new HashMap<>();
-        for (int i = 0; i < Math.min(discoveryDtoList.size(), providersDtoList.size()); i++) {
+        for (int i = 0; i < discoveryDtoList.size(); i++) {
             final String authEndpoint = discoveryDtoList.get(i).getAuthEndpoint();
             providersRequests.put(discoveryDtoList.get(i).getProviders().getName(),
-                    ProviderRequestBuilder.getUrl(providersDtoList.get(i), authEndpoint));
+                    ProviderRequestBuilder.getUrl(detailsDtoList.get(i), authEndpoint));
         }
         return ResponseEntity.ok(providersRequests);
     }
@@ -98,7 +98,7 @@ public class AuthController implements AuthApi {
         AuthResponseDto responseDTO = authService.login(loginRequest);
         IdTokenDto idTokenDTO = responseDTO.getToken();
         if (idTokenDTO.isValidToken()) {
-            Cookie cookie = new Cookie(AUTH_TOKEN, CookieUtils.encryptIdTokenDTO(idTokenDTO));
+            Cookie cookie = new Cookie(AUTH_TOKEN, AuthTokenCrypt.encryptIdTokenDTO(idTokenDTO));
             cookie.setPath("/");
             cookie.setMaxAge(600);
             cookie.setHttpOnly(true);
