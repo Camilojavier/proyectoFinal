@@ -6,7 +6,7 @@ import com.camilo.arce.proyecto.dto.PasswordChangeDto;
 import com.camilo.arce.proyecto.dto.UsersDto;
 import com.camilo.arce.proyecto.services.OpenIDUsersService;
 import com.camilo.arce.proyecto.services.UsersService;
-import com.camilo.arce.proyecto.tools.CookieUtils;
+import com.camilo.arce.proyecto.tools.AuthTokenCrypt;
 import com.camilo.arce.proyecto.web.api.UsersApi;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,7 +67,7 @@ public class UsersController implements  UsersApi{
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(AUTH_TOKEN)) {
                 String token = cookie.getValue();
-                IdTokenDto idTokenDTO = CookieUtils.decryptIdTokenDTO(token);
+                IdTokenDto idTokenDTO = AuthTokenCrypt.decryptIdTokenDTO(token);
                 if (idTokenDTO.isWithOpenId()) {
                     Optional<OpenIDUsersDto> openIDUsersDto =openIDUsersService.getOpenIDUserByDN(idTokenDTO.getAsDN());
                     if (openIDUsersDto.isPresent()) {
