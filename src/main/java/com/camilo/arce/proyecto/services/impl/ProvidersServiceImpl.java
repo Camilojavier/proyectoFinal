@@ -28,6 +28,11 @@ public class ProvidersServiceImpl implements ProvidersService {
     }
 
     @Override
+    public Optional<ProvidersDto> getProviderByName(String name) {
+        return providersRepository.findByName(name).map(providersMapper::toDto);
+    }
+
+    @Override
     public List<ProvidersDto> getAllProviders() {
         List<Providers> allProviders = providersRepository.findAll();
         return allProviders.stream()

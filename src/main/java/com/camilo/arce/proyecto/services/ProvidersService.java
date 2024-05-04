@@ -9,6 +9,8 @@ public interface ProvidersService {
 
     Optional<ProvidersDto> getProviderById(Long providerId);
 
+    Optional<ProvidersDto> getProviderByName(String name);
+
     List<ProvidersDto> getAllProviders();
 
     ProvidersDto createProvider(ProvidersDto providersDTO);
