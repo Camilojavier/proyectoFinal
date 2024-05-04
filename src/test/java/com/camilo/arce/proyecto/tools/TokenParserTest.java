@@ -21,6 +21,7 @@ public class TokenParserTest {
     @Test
     public void testTokenParser(){
         OpenIDResponseDto responseDTO = TokenParser.parseResponse(getTestResponse());
+        assert responseDTO != null;
         assertNotNull(responseDTO.getAccessToken());
         assertNotNull(responseDTO.getExpiresIn());
         assertNotNull(responseDTO.getScope());
