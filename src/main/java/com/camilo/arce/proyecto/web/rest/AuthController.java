@@ -13,6 +13,7 @@ import com.camilo.arce.proyecto.tools.DiscoveryComparator;
 import com.camilo.arce.proyecto.tools.ProviderDetailsComparator;
 import com.camilo.arce.proyecto.tools.ProviderRequestBuilder;
 import com.camilo.arce.proyecto.web.api.AuthApi;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class AuthController implements AuthApi {
     private final ProviderDetailsService providerDetailsService;
     private final DiscoveryService discoveryService;
 
+    @Operation(summary = "Login With OIDC")
     @PostMapping(OPENID_ROUTE)
     public void openIDLogin(@RequestParam(CODE) String code, @RequestParam(STATE) String state, HttpServletResponse response) throws Exception {
         ProvidersDto provider = findProvider(state);
@@ -60,6 +62,7 @@ public class AuthController implements AuthApi {
         return providersDto.orElse(null);
     }
 
+    @Operation(summary = "Get OIDC Providers")
     @GetMapping(OPENID_ROUTE)
     public ResponseEntity<Map<String, String>> getOpenIDProviders() {
         List<ProviderDetailsDto> detailsDtoList = providerDetailsService.getAllProviderDetails();
@@ -75,7 +78,7 @@ public class AuthController implements AuthApi {
         return ResponseEntity.ok(providersRequests);
     }
 
-
+    @Operation(summary = "Log Out")
     @GetMapping(LOGOUT_ROUTE)
     public void logout(HttpServletResponse response) {
         removeAuthToken(response);
@@ -89,6 +92,7 @@ public class AuthController implements AuthApi {
         response.addCookie(cookie);
     }
 
+    @Operation(summary = "Username Password Login")
     @PostMapping(LOGIN_ROUTE)
     public void login(@RequestBody UsernamePasswordRequest usernamePasswordRequest, HttpServletResponse response) throws Exception {
         performAuthentication(usernamePasswordRequest, response);
