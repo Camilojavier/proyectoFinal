@@ -33,8 +33,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new TokenInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/auth/**","/api/**", "/v3/api-docs", "/swagger-ui/**");
+                .addPathPatterns("/v1/**")
+                .excludePathPatterns("/auth/oidc","/auth/login","/api/**", "/v3/api-docs", "/swagger-ui/**");
     }
 
     @Bean
