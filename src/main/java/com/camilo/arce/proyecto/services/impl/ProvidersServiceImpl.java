@@ -71,13 +71,13 @@ public class ProvidersServiceImpl implements ProvidersService {
     }
 
     private void checkOptionalNulls(ProvidersDto providersDTO) {
-        if (providersDTO.getClientSecret().isEmpty()){
+        if (providersDTO.getClientSecret() == null || providersDTO.getClientSecret().isEmpty()){
             providersDTO.setClientSecret(null);
         }
-        if(providersDTO.getResponseMode().isEmpty()){
+        if(providersDTO.getResponseMode() == null || providersDTO.getResponseMode().isEmpty()){
             providersDTO.setResponseMode(null);
         }
-        if(providersDTO.getTenantId().isEmpty()){
+        if(providersDTO.getTenantId() == null || providersDTO.getTenantId().isEmpty()){
             providersDTO.setTenantId(null);
         }
     }

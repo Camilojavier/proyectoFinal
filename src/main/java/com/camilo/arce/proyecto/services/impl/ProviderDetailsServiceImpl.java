@@ -37,6 +37,7 @@ public class ProviderDetailsServiceImpl implements ProviderDetailsService {
 
     @Override
     public ProviderDetailsDto createProviderDetails(ProviderDetailsDto providerDetailsDTO) {
+        checkOptionalNulls(providerDetailsDTO);
         ProviderDetails newProviderDetails = providerDetailsMapper.toEntity(providerDetailsDTO);
         ProviderDetails savedProviderDetails = providerDetailsRepository.save(newProviderDetails);
         return providerDetailsMapper.toDto(savedProviderDetails);
@@ -46,24 +47,28 @@ public class ProviderDetailsServiceImpl implements ProviderDetailsService {
     public ProviderDetailsDto updateProviderDetails(Long providerDetailsId, ProviderDetailsDto providerDetailsDTO) {
         ProviderDetails existingProviderDetails = providerDetailsRepository.findById(providerDetailsId)
                 .orElseThrow(() -> new RuntimeException("Detalles del proveedor no encontrados con ID: " + providerDetailsId));
-
-        if (providerDetailsDTO.getExtraScopes() != null && !providerDetailsDTO.getExtraScopes().isEmpty()) {
-            existingProviderDetails.setExtraScopes(providerDetailsDTO.getExtraScopes());
-        }
-        if (providerDetailsDTO.getResponseType() != null && !providerDetailsDTO.getResponseType().isEmpty()) {
-            existingProviderDetails.setResponseType(providerDetailsDTO.getResponseType());
-        }
-
-        if (providerDetailsDTO.getDisplay() != null && !providerDetailsDTO.getDisplay().isEmpty()) {
-            existingProviderDetails.setDisplay(providerDetailsDTO.getDisplay());
-        }
-
-        if (providerDetailsDTO.getPrompt() != null && !providerDetailsDTO.getPrompt().isEmpty()) {
-            existingProviderDetails.setPrompt(providerDetailsDTO.getPrompt());
-        }
+        checkOptionalNulls(providerDetailsDTO);
+        existingProviderDetails.setExtraScopes(providerDetailsDTO.getExtraScopes());
+        existingProviderDetails.setResponseType(providerDetailsDTO.getResponseType());
+        existingProviderDetails.setDisplay(providerDetailsDTO.getDisplay());
+        existingProviderDetails.setPrompt(providerDetailsDTO.getPrompt());
 
         ProviderDetails updatedProviderDetails = providerDetailsRepository.save(existingProviderDetails);
         return providerDetailsMapper.toDto(updatedProviderDetails);
+    }
+    private void checkOptionalNulls(ProviderDetailsDto providerDetailsDTO) {
+        if (providerDetailsDTO.getExtraScopes() == null || providerDetailsDTO.getExtraScopes().isEmpty()){
+            providerDetailsDTO.setExtraScopes(null);
+        }
+        if (providerDetailsDTO.getResponseType() == null || providerDetailsDTO.getResponseType().isEmpty()){
+            providerDetailsDTO.setResponseType(null);
+        }
+        if (providerDetailsDTO.getPrompt() == null || providerDetailsDTO.getPrompt().isEmpty()){
+            providerDetailsDTO.setPrompt(null);
+        }
+        if (providerDetailsDTO.getDisplay() == null || providerDetailsDTO.getDisplay().isEmpty()){
+            providerDetailsDTO.setDisplay(null);
+        }
     }
 
     @Override
