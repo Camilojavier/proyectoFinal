@@ -2,10 +2,12 @@ package com.camilo.arce.proyecto.dto;
 
 import com.camilo.arce.proyecto.dto.Messages.ProviderDetailsMessages;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
-@Data
+@Setter
+@Getter
 public class ProviderDetailsDto implements ProviderDetailsMessages {
 
     private Long providerDetailsId;

@@ -1,9 +1,11 @@
 package com.camilo.arce.proyecto.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class OpenIDResponseDto {
     @JsonProperty("access_token")
     private String accessToken;

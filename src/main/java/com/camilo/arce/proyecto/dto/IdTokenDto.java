@@ -2,9 +2,11 @@ package com.camilo.arce.proyecto.dto;
 
 import com.camilo.arce.proyecto.dto.Messages.IdTokenMessages;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class IdTokenDto implements IdTokenMessages {
 
     @NotBlank(message = cNNotBlankMessage)

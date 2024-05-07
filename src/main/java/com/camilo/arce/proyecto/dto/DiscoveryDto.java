@@ -3,10 +3,12 @@ package com.camilo.arce.proyecto.dto;
 import com.camilo.arce.proyecto.dto.Messages.DiscoveryMessages;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
-@Data
+@Setter
+@Getter
 public class DiscoveryDto implements DiscoveryMessages {
 
     private Long discoveryId;

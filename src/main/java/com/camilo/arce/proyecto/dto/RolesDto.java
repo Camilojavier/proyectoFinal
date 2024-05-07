@@ -2,9 +2,11 @@ package com.camilo.arce.proyecto.dto;
 
 import com.camilo.arce.proyecto.dto.Messages.RolesMessages;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 public class RolesDto implements RolesMessages {
 
     private Long roleId;
