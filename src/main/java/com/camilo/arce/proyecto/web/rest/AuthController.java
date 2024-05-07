@@ -1,8 +1,8 @@
 package com.camilo.arce.proyecto.web.rest;
 
-import com.camilo.arce.proyecto.domain.entities.LoginRequest;
+import com.camilo.arce.proyecto.dto.LoginRequest;
 import com.camilo.arce.proyecto.domain.entities.OpenIDRequest;
-import com.camilo.arce.proyecto.domain.entities.UsernamePasswordRequest;
+import com.camilo.arce.proyecto.dto.UsernamePasswordRequest;
 import com.camilo.arce.proyecto.dto.*;
 import com.camilo.arce.proyecto.services.AuthService;
 import com.camilo.arce.proyecto.services.DiscoveryService;

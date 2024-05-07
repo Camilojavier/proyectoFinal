@@ -1,13 +1,16 @@
 package com.camilo.arce.proyecto.domain.entities;
 
+import com.camilo.arce.proyecto.dto.LoginRequest;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
-public class OpenIDRequest implements LoginRequest{
+public class OpenIDRequest implements LoginRequest {
     private String name;
     private String issuer;
     private String tokenEndpoint;

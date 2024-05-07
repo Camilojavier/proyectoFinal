@@ -42,6 +42,7 @@ public class ProvidersServiceImpl implements ProvidersService {
 
     @Override
     public ProvidersDto createProvider(ProvidersDto providersDTO) {
+        checkOptionalNulls(providersDTO);
         Providers newProvider = providersMapper.toEntity(providersDTO);
         Providers savedProvider = providersRepository.save(newProvider);
         return providersMapper.toDto(savedProvider);
@@ -51,7 +52,7 @@ public class ProvidersServiceImpl implements ProvidersService {
     public ProvidersDto updateProvider(Long providerId, ProvidersDto providersDTO) {
         Providers existingProvider = providersRepository.findById(providerId)
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado con ID: " + providerId));
-
+        checkOptionalNulls(providersDTO);
         if (providersDTO.getName() != null && !providersDTO.getName().isEmpty()) {
             existingProvider.setName(providersDTO.getName());
         }
@@ -65,9 +66,20 @@ public class ProvidersServiceImpl implements ProvidersService {
             existingProvider.setClientSecret(providersDTO.getClientSecret());
             existingProvider.setResponseMode(providersDTO.getResponseMode());
             existingProvider.setTenantId(providersDTO.getTenantId());
-
         Providers updatedProvider = providersRepository.save(existingProvider);
         return providersMapper.toDto(updatedProvider);
+    }
+
+    private void checkOptionalNulls(ProvidersDto providersDTO) {
+        if (providersDTO.getClientSecret().isEmpty()){
+            providersDTO.setClientSecret(null);
+        }
+        if(providersDTO.getResponseMode().isEmpty()){
+            providersDTO.setResponseMode(null);
+        }
+        if(providersDTO.getTenantId().isEmpty()){
+            providersDTO.setTenantId(null);
+        }
     }
 
     @Override
