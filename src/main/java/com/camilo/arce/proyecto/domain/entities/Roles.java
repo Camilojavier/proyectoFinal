@@ -2,11 +2,13 @@ package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.RolesAnnotations;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = RolesAnnotations.ROLES)
 public class Roles implements RolesAnnotations{

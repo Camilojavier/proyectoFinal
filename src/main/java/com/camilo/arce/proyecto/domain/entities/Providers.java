@@ -1,12 +1,15 @@
 package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.ProvidersAnnotations;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name= ProvidersAnnotations.PROVIDERS)
 public class Providers implements ProvidersAnnotations{
@@ -34,12 +37,15 @@ public class Providers implements ProvidersAnnotations{
     @Column(name = TENANT_ID)
     private String tenantId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = PROVIDERS, cascade = CascadeType.ALL)
     private Set<OpenIDUsers> openIDUsers;
 
+    @JsonIgnore
     @OneToMany(mappedBy = PROVIDERS, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProviderDetails> providerDetails;
 
+   @JsonIgnore
     @OneToOne(mappedBy = PROVIDERS, cascade = CascadeType.ALL, orphanRemoval = true)
     private Discovery discovery;
 

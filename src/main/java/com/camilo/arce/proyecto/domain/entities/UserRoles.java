@@ -2,9 +2,11 @@ package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.UserRolesAnnotations;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = UserRolesAnnotations.USER_ROLES)
 public class UserRoles implements UserRolesAnnotations {

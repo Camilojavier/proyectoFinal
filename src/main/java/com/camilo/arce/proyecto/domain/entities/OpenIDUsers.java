@@ -2,10 +2,12 @@ package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.OpenIDUsersAnnotations;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = OpenIDUsersAnnotations.OPENID_USERS_TABLE_NAME)
 public class OpenIDUsers implements OpenIDUsersAnnotations{

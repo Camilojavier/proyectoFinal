@@ -2,10 +2,12 @@ package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.ProviderDetailsAnnotations;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = ProviderDetailsAnnotations.PROVIDER_DETAILS)
 public class ProviderDetails implements ProviderDetailsAnnotations {

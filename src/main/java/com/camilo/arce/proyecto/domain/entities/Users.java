@@ -1,12 +1,15 @@
 package com.camilo.arce.proyecto.domain.entities;
 
 import com.camilo.arce.proyecto.domain.annotations.UsersAnnotations;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Table(name = UsersAnnotations.USERS)
 public class Users implements UsersAnnotations {
@@ -32,9 +35,11 @@ public class Users implements UsersAnnotations {
 
     private String phone;
 
+    @JsonIgnore
     @OneToMany(mappedBy = USERS, cascade = CascadeType.ALL)
     private Set<UserRoles> userRoles;
 
+    @JsonIgnore
     @OneToMany(mappedBy = USERS, cascade = CascadeType.ALL)
     private Set<OpenIDUsers> openIDUsers;
 
