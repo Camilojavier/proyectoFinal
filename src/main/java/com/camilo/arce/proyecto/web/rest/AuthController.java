@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class AuthController implements AuthApi {
 
     @Operation(summary = "Login With OIDC")
     @PostMapping(OPENID_ROUTE)
-    public void openIDLogin(@RequestParam(CODE) String code, @RequestParam(STATE) String state, HttpServletResponse response) throws Exception {
+    public ResponseEntity<Void> openIDLogin(@RequestParam(CODE) String code, @RequestParam(STATE) String state, HttpServletResponse response) throws Exception {
         ProvidersDto provider = findProvider(state);
         Optional<DiscoveryDto> discoveryOpt;
         DiscoveryDto discovery;
@@ -45,20 +46,33 @@ public class AuthController implements AuthApi {
             if (discoveryOpt.isPresent())
                 discovery = discoveryOpt.get();
             else {
-                return;
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
         } else {
-            return;
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         final OpenIDRequest openIDRequest = new OpenIDRequest(provider.getName(), discovery.getIssuer(), discovery.getTokenEndpoint(), code, state,
                 provider.getClientId(), provider.getClientSecret(), REDIRECT_URI, discovery.getJwksUri(), "nonce");
-        performAuthentication(openIDRequest, response);
+        boolean auth = performAuthentication(openIDRequest, response);
         response.sendRedirect(REFERER);
+        if (auth)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     private ProvidersDto findProvider(String state) {
-        Optional<ProvidersDto> providersDto = providersService.getProviderById((long) Character.getNumericValue(state.charAt(0)));
+        int primeraLetra = 0;
+        for (int i = 0; i < state.length(); i++) {
+            if (!Character.isDigit(state.charAt(i))) {
+                primeraLetra = i;
+                break;
+            }
+        }
+        String receivedId = state.substring(0, primeraLetra);
+        Long providerId = Long.parseLong(receivedId);
+        Optional<ProvidersDto> providersDto = providersService.getProviderById(providerId);
         return providersDto.orElse(null);
     }
 
@@ -94,20 +108,30 @@ public class AuthController implements AuthApi {
 
     @Operation(summary = "Username Password Login")
     @PostMapping(LOGIN_ROUTE)
-    public void login(@RequestBody UsernamePasswordRequest usernamePasswordRequest, HttpServletResponse response) throws Exception {
-        performAuthentication(usernamePasswordRequest, response);
+    public ResponseEntity<Void> login(@RequestBody UsernamePasswordRequest usernamePasswordRequest, HttpServletResponse response) throws Exception {
+        if (performAuthentication(usernamePasswordRequest, response)){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
-    private void performAuthentication( LoginRequest loginRequest, HttpServletResponse response) throws Exception {
+    private boolean performAuthentication( LoginRequest loginRequest, HttpServletResponse response) throws Exception {
         AuthResponseDto responseDTO = authService.login(loginRequest);
         IdTokenDto idTokenDTO = responseDTO.getToken();
+        if (idTokenDTO == null) {
+            return false;
+        }
         if (idTokenDTO.isValidToken()) {
             Cookie cookie = new Cookie(AUTH_TOKEN, AuthTokenCrypt.encryptIdTokenDTO(idTokenDTO));
             cookie.setPath("/");
             cookie.setMaxAge(600);
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
+            return true;
         }
+        return false;
     }
 
 }
