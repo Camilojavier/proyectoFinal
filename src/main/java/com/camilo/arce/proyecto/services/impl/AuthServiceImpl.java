@@ -73,7 +73,6 @@ public class AuthServiceImpl implements AuthService {
                     requestEntity,
                     String.class);
 
-            System.out.println(response.getBody());
             OpenIDResponseDto responseDTO = TokenParser.parseResponse(response.getBody());
             boolean isRegisteredDN = false;
             IdTokenDto idTokenDTO = null;
