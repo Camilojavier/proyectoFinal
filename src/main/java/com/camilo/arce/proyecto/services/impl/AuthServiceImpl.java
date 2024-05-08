@@ -1,8 +1,6 @@
 package com.camilo.arce.proyecto.services.impl;
 
-import com.camilo.arce.proyecto.dto.LoginRequest;
 import com.camilo.arce.proyecto.domain.entities.OpenIDRequest;
-import com.camilo.arce.proyecto.dto.UsernamePasswordRequest;
 import com.camilo.arce.proyecto.dto.*;
 import com.camilo.arce.proyecto.services.AuthService;
 import com.camilo.arce.proyecto.services.OpenIDUsersService;
@@ -101,8 +99,4 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    @Override
-    public AuthResponseDto register(UsersDto usersDto) {
-        return null;
-    }
 }
