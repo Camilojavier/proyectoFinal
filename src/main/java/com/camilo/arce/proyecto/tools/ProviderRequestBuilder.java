@@ -16,7 +16,7 @@ public class ProviderRequestBuilder {
                 "nonce=" + "nonce";
 
         if (details.getExtraScopes() != null) {
-            url += "&scope=openid email" + details.getExtraScopes();
+            url += "&scope=openid email " + details.getExtraScopes();
         } else {
             url += "&scope=openid email";
         }
@@ -27,6 +27,8 @@ public class ProviderRequestBuilder {
         }
         if (providers.getResponseMode() != null) {
             url += "&response_mode=" + providers.getResponseMode();
+        } else {
+            url += "&response_mode=form_post";
         }
         if (details.getDisplay() != null) {
             url += "&display=" + details.getDisplay();
