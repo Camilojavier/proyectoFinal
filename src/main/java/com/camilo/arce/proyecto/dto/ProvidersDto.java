@@ -17,7 +17,6 @@ public class ProvidersDto implements ProvidersMessages {
     @NotBlank(message = nameNotBlankMessage)
     private String name;
 
-    @NotBlank(message = discoveryUrlNotBlankMessage)
     private String discoveryUrl;
 
     @NotBlank(message = clientIdNotBlankMessage)
