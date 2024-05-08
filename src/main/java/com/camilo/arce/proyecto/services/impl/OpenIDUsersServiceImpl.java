@@ -36,6 +36,7 @@ public class OpenIDUsersServiceImpl implements OpenIDUsersService {
 
     @Override
     public OpenIDUsersDto createOpenIDUser(OpenIDUsersDto openIDUsersDTO) {
+        resolveDN(openIDUsersDTO);
         OpenIDUsers newOpenIDUser = openIDUsersMapper.toEntity(openIDUsersDTO);
         OpenIDUsers savedOpenIDUser = openIDUsersRepository.save(newOpenIDUser);
         return openIDUsersMapper.toDto(savedOpenIDUser);
@@ -56,13 +57,21 @@ public class OpenIDUsersServiceImpl implements OpenIDUsersService {
         if (openIDUsersDto.getIssuer() != null && !openIDUsersDto.getIssuer().isEmpty()) {
             existingOpenIDUser.setIssuer(openIDUsersDto.getIssuer());
         }
-
+        resolveDN(openIDUsersDto);
         if (openIDUsersDto.getOpenIdDN() != null && !openIDUsersDto.getOpenIdDN().isEmpty()) {
             existingOpenIDUser.setOpenIdDN(openIDUsersDto.getOpenIdDN());
         }
 
         OpenIDUsers updatedOpenIDUser = openIDUsersRepository.save(existingOpenIDUser);
         return openIDUsersMapper.toDto(updatedOpenIDUser);
+    }
+
+    private void resolveDN(OpenIDUsersDto openIDUsersDto) {
+        String dn =
+                "CN=" + openIDUsersDto.getSubjectId() +
+                ",DC=" + openIDUsersDto.getIssuer() +
+                ",E=" + openIDUsersDto.getMail();
+        openIDUsersDto.setOpenIdDN(dn);
     }
 
     @Override
