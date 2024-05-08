@@ -4,10 +4,12 @@ import com.camilo.arce.proyecto.dto.Messages.ProvidersMessages;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @Setter
 @Getter
+@ToString
 public class ProvidersDto implements ProvidersMessages {
 
     private Long providerId;

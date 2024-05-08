@@ -4,9 +4,11 @@ import com.camilo.arce.proyecto.dto.Messages.AuthResponseMessages;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
 public class AuthResponseDto implements AuthResponseMessages {
     @NotNull(message = tokenNotNullMessage)
     private IdTokenDto token;

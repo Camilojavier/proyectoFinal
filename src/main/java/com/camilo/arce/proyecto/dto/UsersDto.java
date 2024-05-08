@@ -6,11 +6,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
 @Setter
 @Getter
+@ToString
 public class UsersDto implements UsersMessages, Serializable {
 
     private Long userId;

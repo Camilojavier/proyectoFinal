@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
 public class OpenIDUsersDto implements OpenIDUsersMessages {
 
     private Long openIdUsersId;
@@ -21,8 +23,8 @@ public class OpenIDUsersDto implements OpenIDUsersMessages {
     @NotBlank(message = issuerNotBlankMessage)
     private String issuer;
 
-    @NotBlank(message = openIdDNNotBlankMessage)
     private String openIdDN;
+
     @NotNull(message = providersNotNullMessage)
     private ProvidersDto providers;
 

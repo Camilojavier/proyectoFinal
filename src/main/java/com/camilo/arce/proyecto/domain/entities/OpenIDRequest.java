@@ -4,11 +4,13 @@ import com.camilo.arce.proyecto.dto.LoginRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 @Setter
 @Getter
+@ToString
 @AllArgsConstructor
 public class OpenIDRequest implements LoginRequest {
     private String name;
