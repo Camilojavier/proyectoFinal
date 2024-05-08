@@ -6,6 +6,7 @@ public interface AuthApi extends Api {
     String AUTH_ROUTE =  "/auth";
     String LOGOUT_ROUTE =  "/logout";
     String LOGIN_ROUTE =  "/login";
+    String REGISTER_ROUTE =  "/register";
     String OPENID_ROUTE = "/oidc";
     String CODE = "code";
     String STATE = "state";
