@@ -172,16 +172,9 @@ public class AuthController implements AuthApi {
 
     @Operation(summary = "User Registration")
     @PostMapping(REGISTER_ROUTE)
-    public ResponseEntity<AuthResponseDto> register(@RequestBody UsersDto usersDto) {
+    public ResponseEntity<UsersDto> register(@RequestBody UsersDto usersDto) {
         UsersDto createdUserDTO = usersService.createUser(usersDto);
-        IdTokenDto idTokenDto = new IdTokenDto();
-        idTokenDto.setCN(createdUserDTO.getUsername());
-        idTokenDto.setE(createdUserDTO.getEmail());
-        idTokenDto.setWithOpenId(false);
-        if (idTokenDto.isValidToken())
-            return new ResponseEntity<>(AuthResponseDto.success(idTokenDto), HttpStatus.CREATED);
-        else
-            return new ResponseEntity<>(AuthResponseDto.error("User could not be created",500),HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+        return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
+        }
 
 }
