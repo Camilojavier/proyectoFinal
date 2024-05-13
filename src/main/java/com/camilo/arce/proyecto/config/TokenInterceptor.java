@@ -28,7 +28,10 @@ public class TokenInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        response.sendRedirect("/auth/oidc");
+        // Si el usuario no está autenticado, establece el código de estado HTTP 401 (No autorizado)
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        // Opcional: Envía un mensaje de error en el cuerpo de la respuesta
+        response.getWriter().write("Usuario no autenticado");
         return false;
     }
 }
