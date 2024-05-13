@@ -30,7 +30,7 @@ public class CorsFilter implements Filter {
         }
 
         // Configuración para /auth/logout y /auth/login
-        if (request.getRequestURI().endsWith("/auth/logout") || request.getRequestURI().endsWith("/auth/login") || request.getRequestURI().startsWith("/v1/") ) {
+        if (request.getRequestURI().endsWith("/auth/logout") || request.getRequestURI().endsWith("/auth/login") || request.getRequestURI().startsWith("/v1/") || request.getRequestURI().endsWith("/auth/register")  ) {
             response.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
             response.setHeader("Access-Control-Allow-Credentials", "true");
         }
