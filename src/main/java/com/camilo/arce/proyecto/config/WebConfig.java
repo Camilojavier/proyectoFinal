@@ -1,6 +1,7 @@
 package com.camilo.arce.proyecto.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,10 @@ import jakarta.servlet.Filter;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
+
+    private final TokenInterceptor tokenInterceptor;
 
     @Bean
     public FilterRegistrationBean<Filter> corsFilterRegistration() {
@@ -32,7 +36,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new TokenInterceptor())
+        registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/v1/**")
                 .excludePathPatterns("/auth/oidc","/auth/login","/api/**", "/v3/api-docs", "/swagger-ui/**");
     }
