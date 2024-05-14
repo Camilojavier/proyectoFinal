@@ -174,6 +174,7 @@ public class AuthController implements AuthApi {
     @PostMapping(REGISTER_ROUTE)
     public ResponseEntity<UsersDto> register(@RequestBody UsersDto usersDto) {
         UsersDto createdUserDTO = usersService.createUser(usersDto);
+        LOGGER.info("Created User {}", createdUserDTO);
         return new ResponseEntity<>(createdUserDTO, HttpStatus.CREATED);
         }
 
